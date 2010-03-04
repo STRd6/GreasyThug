@@ -18,16 +18,17 @@ var IJC = function() {
   
   var handle = $("<div class='handle'>Interactive JavaScript Console</div>")
     .css({
-      'width': WIDTH,
+      'width': "100%",
       'padding':'2px 4px',
-      'background-color': '#222'
+      'background-color': '#222',
+      'overflow': 'hidden'
     });
   
   var output = $("<div class='outputBuffer'></div>")
     .css({
       'padding': '4px',
       'height': '250px',
-      'width': WIDTH,
+      'width': "100%",
       'overflow': 'auto'
     });
     
@@ -38,7 +39,7 @@ var IJC = function() {
     output[0].scrollTop = output[0].scrollHeight;
   };
   
-  var input = $("<textarea />")
+  var input = $("<input type='text' />")
     .css({
       'width': WIDTH
     })

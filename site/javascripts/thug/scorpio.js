@@ -2,12 +2,13 @@
  *  Scorpio handles all the database connectivity.
  */
 var Scorpio = function() {
+  var logging = true;
   var db;
 
   var createTables = function(db) {
     db.execute('CREATE TABLE IF NOT EXISTS config (key VARCHAR(16) PRIMARY KEY, value VARCHAR(16))');
     db.execute('CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY, code TEXT)');
-    db.execute('CREATE TABLE IF NOT EXISTS scripts (id INTEGER PRIMARY KEY, title VARCHAR(255), code TEXT)');
+    db.execute('CREATE TABLE IF NOT EXISTS scripts (id INTEGER PRIMARY KEY, title VARCHAR(255), code TEXT, active BOOLEAN DEFAULT 0)');
   }
   
   var dropTables = function(db) {
@@ -62,7 +63,11 @@ var Scorpio = function() {
         );
       },
       
-      deleteAll: function() {
+      destroy: function(id) {
+        db.execute('DELETE FROM ' + table + ' WHERE ' + primaryKey + ' = ?', [id]);
+      },
+      
+      destroyAll: function() {
         db.execute('DELETE FROM ' + table);
       },
       
@@ -73,6 +78,25 @@ var Scorpio = function() {
           function(transaction, result) {
             callback(result.rows.item(0));
           }
+        );
+      },
+      
+      update: function(id, object) {
+        var fields = [];
+        var values = [];
+        
+        $.each(object, function(key, value) {
+          fields.push(key + " = ?");
+          values.push(value);
+        });
+        
+        values.push(id);
+        
+        db.execute(
+          'UPDATE ' + table + 
+          ' SET ' + fields.join(', ') + 
+          ' WHERE ' + primaryKey + ' = ?',
+          values
         );
       }
     }
@@ -85,6 +109,11 @@ var Scorpio = function() {
       
       db = openDatabase("greasy_thug", "0.0", "Greasy Thug Database",  250 * 1024);
       db.execute = function(query, params, success, error) {
+        if(logging) {
+          console.log(query);
+          console.log(params);
+        }
+        
         this.transaction(function(transaction) {
           transaction.executeSql(query, params, success, error);
         });
