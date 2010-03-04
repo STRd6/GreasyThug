@@ -1,0 +1,62 @@
+%style
+  :sass
+    tr
+      white-space: nowrap
+
+    .results
+      text-align: right
+      min-width: 6em
+      color: black
+
+
+:javascript
+  function setChildTextNode(elementId, text) {
+    document.getElementById(elementId).innerText = text;
+  }
+
+  // Tests the roundtrip time of sendRequest().
+  function testRequest() {
+    setChildTextNode("resultsRequest", "run1ning...");
+
+    chrome.tabs.getSelected(null, function(tab) {
+      chrome.tabs.sendRequest(tab.id, {counter: 1}, function handler(response) {
+        setChildTextNode("resultsRequest", "B");
+        if (response.counter < 1000) {
+          chrome.tabs.sendRequest(tab.id, {counter: response.counter}, handler);
+        } else {
+          setChildTextNode("Done!");
+        }
+      });
+    });
+  }
+
+  // Tests the roundtrip time of Port.postMessage() after opening a channel.
+  function testConnect() {
+    setChildTextNode("resultsConnect", "running...");
+
+    chrome.tabs.getSelected(null, function(tab) {
+      var timer = new chromium.Interval();
+      timer.start();
+
+      var port = chrome.tabs.connect(tab.id);
+      port.postMessage({counter: 1});
+      port.onMessage.addListener(function getResp(response) {
+        if (response.counter < 1000) {
+          port.postMessage({counter: response.counter});
+        } else {
+          timer.stop();
+          var usec = Math.round(timer.microseconds() / response.counter);
+          setChildTextNode("resultsConnect", usec + "usec");
+        }
+      });
+    });
+  }
+
+%table
+  %tr
+    <td><button onclick="testRequest()">Measure sendRequest</button></td>
+    <td id="resultsRequest" class="results">(results)</td>
+
+  %tr
+    <td><button onclick="testConnect()">Measure postMessage</button></td>
+    <td id="resultsConnect" class="results">(results)</td>
