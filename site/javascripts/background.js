@@ -1,12 +1,14 @@
 chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
-    var source = sender.tab ?
-      sender.tab.url :
-      "extension";
-    if (request.greeting == "hello") {
-      sendResponse({farewell: source});
-    } else {
-      sendResponse({}); // snub them.
+    var source = sender.tab ? sender.tab.url : "extension";
+    console.log(source);
+    console.log(request);
+
+    if (request.action == "set") {
+      localStorage[request.key] = request.value;
+      sendResponse({key: request.key, value: request.value});
+    } else if (request.action == "get") {
+      sendResponse({key: request.key, value: localStorage[request.key]});
     }
   }
 );

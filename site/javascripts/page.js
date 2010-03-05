@@ -4,13 +4,18 @@ Scorpio.init();
 commandHistory = new CommandHistory(Scorpio);
 
 var interactiveConsole = new IJC();
+var show = true;
 
 interactiveConsole.registerCallback('command', commandHistory.add)
 interactiveConsole.registerCallback('keydown', commandHistory.arrowKeyEvent);
 
 Scorpio.loadConfig(function(config) {
   console.log(config);
+  interactiveConsole.element.hide();
   interactiveConsole.attach(config.left || 0, config.top || 0);
+  if(show) {
+    interactiveConsole.element.show();
+  }
 });
 
 function saveScript(title, code, active) {
@@ -34,7 +39,7 @@ function executeActiveScripts() {
         
         if(script.active) {
           console.log("[Executing]");
-          eval("(" + code + ")");
+          eval(code);
         } else {
           console.log("[Skipping, Inactive]");
         }
@@ -71,29 +76,26 @@ function enableScript(id) {
   Scorpio.scripts.update(id, {active: 1});
 }
 
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    console.log(sender.tab ?
-      "from a content script:" + sender.tab.url :
-      "from the extension");
+function savePreviouslyExecutedAs(title, active) {
+  saveScript(title, commandHistory.last(), active)
+}
 
-    alert(request.greeting);
-});
-
-
-/*
-chrome.extension.onConnect.addListener(function(port) {
-  port.onMessage.addListener(function(msg) {
-    port.postMessage({counter: msg.counter+1});
+/**
+ * Functions to get and set values from the background page's local storage
+ */
+function set(key, value) {
+  chrome.extension.sendRequest({action: "set", key: key, value: value}, function(response) {
+    console.log(response);
   });
-});
+}
 
-chrome.extension.onRequest.addListener(
-  function(request, sender, sendResponse) {
-    sendResponse({counter: request.counter+1});
-  }
-);
-*/
+function get(key, callback) {
+  chrome.extension.sendRequest({action: "get", key: key}, function(response) {
+    console.log(response);
+    callback(response.value);
+  });
+}
 
-chrome.extension.sendRequest({greeting: "hello"}, function(response) {
-  console.log(response.farewell);
-});
+set("test", "new_test");
+
+get("test", function(val){console.log(val)});

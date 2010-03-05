@@ -111,6 +111,8 @@ var IJC = function() {
       );
     }, 
     
+    element: chasis,
+    
     input: input,
     
     registerCallback: function(event, callback) {
