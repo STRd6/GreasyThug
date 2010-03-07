@@ -39,8 +39,14 @@ var Scorpio = function() {
   
     return {
       all: function(callback) {
-        var rs = db.execute('SELECT * FROM ' + table, [], function(transaction, result) {
+        db.execute('SELECT * FROM ' + table, [], function(transaction, result) {
           callback(rowsToObjects(result.rows));
+        });
+      },
+      
+      count: function(callback) {
+        db.execute('SELECT COUNT(*) AS count FROM ' + table, [], function(transaction, result) {
+          callback(result.rows.item(0).count);
         });
       },
       
@@ -122,6 +128,12 @@ var Scorpio = function() {
       createTables(db);
       
       self.db = db;
+    },
+    
+    executeSql: function(sql, params, callback) {
+      db.execute(sql, params, function(transaction, result) {
+        callback(rowsToObjects(result.rows));
+      });
     },
     
     reset: function() {
