@@ -1,10 +1,13 @@
-//$('a').css({'background-color': 'yellow'});
-
 Scorpio.init();
 commandHistory = new CommandHistory(Scorpio);
 
 var interactiveConsole = new IJC();
-var show = true;
+
+get("autorun", function(autorun) {
+  if(autorun != 0) {
+    executeActiveScripts();
+  }
+});
 
 interactiveConsole.registerCallback('command', commandHistory.add)
 interactiveConsole.registerCallback('keydown', commandHistory.arrowKeyEvent);
@@ -13,9 +16,12 @@ Scorpio.loadConfig(function(config) {
   console.log(config);
   interactiveConsole.element.hide();
   interactiveConsole.attach(config.left || 0, config.top || 0);
-  if(show) {
-    interactiveConsole.element.show();
-  }
+  
+  get("autoshow", function(autoshow) {
+    if(autoshow != 0) {
+      interactiveConsole.element.show();
+    }
+  });
 });
 
 function saveScript(title, code, active) {

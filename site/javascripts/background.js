@@ -1,3 +1,7 @@
+// Default Configuration
+localStorage["autoshow"] = 0;
+localStorage["autorun"] = 1;
+
 chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
     var source = sender.tab ? sender.tab.url : "extension";
