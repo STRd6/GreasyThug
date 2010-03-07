@@ -73,7 +73,7 @@ var IJC = function() {
           top: $( this ).css('top')
         });
       }
-    });
+    }).css("position", "absolute");
 
   var self = {
     attach: function(left, top) {
