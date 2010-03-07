@@ -5,8 +5,7 @@
   
   "browser_action": {
     "default_title": "Greasy Thug",
-    "default_icon": "images/icon.png",
-    "popup": "popup.html"
+    "default_icon": "images/icon.png"
   },
 
   "content_scripts": [

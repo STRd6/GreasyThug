@@ -77,7 +77,7 @@ function enableScript(id) {
 }
 
 function savePreviouslyExecutedAs(title, active) {
-  saveScript(title, commandHistory.last(), active)
+  saveScript(title, commandHistory.last(), active);
 }
 
 /**
@@ -99,3 +99,11 @@ function get(key, callback) {
 set("test", "new_test");
 
 get("test", function(val){console.log(val)});
+
+chrome.extension.onRequest.addListener(
+  function(request, sender, sendResponse) {
+    if(request.action == "toggle") {
+      interactiveConsole.element.toggle();
+    }
+  }
+);
