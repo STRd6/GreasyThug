@@ -1,7 +1,11 @@
 {
-  "name": "My First Compiled Extension",
+  "name": "Greasy Thug",
   "version": "0.0",
-  "description": "The first extension that I made.",
+  "description": "Grease up the internet.",
+  "icons": {
+    "48": "images/blimpy_48x48.png",
+    "128": "images/blimpy_128x128.png"
+  },
   
   "browser_action": {
     "default_title": "Greasy Thug",
