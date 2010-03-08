@@ -25,7 +25,7 @@ var IJC = function() {
     output[0].scrollTop = output[0].scrollHeight;
   };
   
-  var input = $("<input type='text' />")
+  var input = $("<textarea />")
     .keydown(function(event) {
       $.each(callbacks['keydown'], function(index, callback) {
         callback(event, self);
@@ -34,7 +34,7 @@ var IJC = function() {
     
   var form = $("<form action='#' method='get'></form>")
     .append(input)
-    .append($("<input type='submit' value='Go'/>"));
+    .append($("<input class='execute' type='submit' value='Execute'/>"));
   
   form.submit( function() {
     var result = '';
@@ -64,7 +64,6 @@ var IJC = function() {
     .append(output)
     .append(form)
     .fadeTo("fast", 0.75)
-    .resizable()
     .draggable({
       handle: ".handle",
       stop: function() {

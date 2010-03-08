@@ -10,7 +10,27 @@ get("autorun", function(autorun) {
 });
 
 interactiveConsole.registerCallback('command', commandHistory.add)
-interactiveConsole.registerCallback('keydown', commandHistory.arrowKeyEvent);
+//interactiveConsole.registerCallback('keydown', commandHistory.arrowKeyEvent);
+
+var prevButton = $("<button class='prev'>&lt; Prev</button>").click( function() {
+  commandHistory.changeConsoleCommand(-1, interactiveConsole); 
+  return false;
+});
+var nextButton = $("<button class='next'>Next &gt;</button>").click(function() {
+  commandHistory.changeConsoleCommand(1, interactiveConsole);
+  return false;
+});
+var scriptTitleInput = $("<input />");
+var saveButton = $("<button class='save'>Save Previous</button>").click(function() {
+  savePreviouslyExecutedAs(scriptTitleInput.val(), 1);
+  return false;
+});
+
+interactiveConsole.element.find("form")
+  .append(prevButton)
+  .append(nextButton)
+  .append(saveButton)
+  .append(scriptTitleInput);
 
 Scorpio.loadConfig(function(config) {
   console.log(config);

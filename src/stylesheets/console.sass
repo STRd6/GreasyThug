@@ -1,3 +1,5 @@
+!minWidth = 300px
+
 #strd6-GreasyThugConsole
   background-color: black
   color: green
@@ -6,21 +8,35 @@
   position: absolute
   font-weight: bold
   text-align: left
-  width: 360px
+  width: auto
   z-index: 1000
   
   .handle
     background-color: #222
+    min-width= !minWidth
     padding: 2px 4px
     overflow: hidden
     width: auto
     
   .outputBuffer
     height: 250px
+    min-width= !minWidth
+    max-width: 600px
+    overflow: auto
     padding: 4px
     width: auto
 
   form
+    display: block
+    min-width= !minWidth
     width: auto
-    input
-      width: auto
+    textarea
+      display: block
+      min-width= !minWidth
+      
+    .execute
+      float: right
+      margin-right: 20px
+
+    .save
+      margin-left: 40px

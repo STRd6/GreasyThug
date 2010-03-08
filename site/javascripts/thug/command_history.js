@@ -45,6 +45,12 @@ CommandHistory = function(store) {
       if(historyIndex != originalIndex) {
         console.input.val(get(historyIndex));
       }
+    },
+    
+    changeConsoleCommand: function(delta, console) {
+      historyIndex += delta;
+      
+      console.input.val(get(historyIndex));
     }
   };
 };
