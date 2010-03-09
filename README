@@ -1,0 +1,20 @@
+Greasy Thug v0.0.1
+==================
+
+I've been called a greasy thug, too. It never stops hurting. So here's what we're gonna do: We're gonna grease ourselves up real good and trash that place with a baseball bat. - Homer
+
+Enables you to use JavaScript and jQuery to alter web pages, like Greasemonkey. Unlike Greasemonkey, Greasy Thug provides a built in console with a full command history. This allows for quick one-off scripts to be created and saved to execute at each subsequent visit to a page.
+
+Because this is an early release there is lots of logging info in the console. This will show you what scripts are running and when.
+
+Creating Your First Page-mod
+============================
+
+After installing Greasy Thug, click the console icon browser action that has been added to your Chrome toolbar. You will see a console window appear in the top left of your screen.
+
+Type `alert("Hello World")` into the text area in the console. Click `Execute`. This will execute the script you just typed in. Now click `Save Previous`. This will save the previously executed script to be run every time you return to the page.
+
+Removing Your First Page-mod
+============================
+
+You're probably wondering how to make that annoying "Hello World" popup go away. In the Thug console type `deleteScript(1)` and press `Execute`. Make sure 1 is the id of the script, you can check the actual non-thug console, it should say something like `Script [1]: ` and display the code that comprises the script on the next line.
