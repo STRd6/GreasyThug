@@ -20,15 +20,16 @@ var nextButton = $("<button class='next'>Next &gt;</button>").click(function() {
   commandHistory.changeConsoleCommand(1, interactiveConsole);
   return false;
 });
-var scriptTitleInput = $("<input />");
+var scriptTitleInput = $("<input />").attr('title', "Name to save script as");
 var saveButton = $("<button class='save'>Save Previous</button>").click(function() {
   savePreviouslyExecutedAs(scriptTitleInput.val(), 1);
   return false;
-});
+}).attr('title', "Persist the last script executed to be run on subsequent page loads.");
 
 interactiveConsole.element.find("form")
   .append(prevButton)
   .append(nextButton)
+  .append("<br />")
   .append(saveButton)
   .append(scriptTitleInput);
 
