@@ -16,7 +16,7 @@ var IJC = function() {
   var callbacks = {keydown: [], command: [processSuccess]};
   
   var handle = $("<div class='handle'>Interactive JavaScript Console</div>");
-  var output = $("<div class='outputBuffer'></div>");
+  var output = $("<pre class='outputBuffer'></pre>");
     
   var puts = function(text) {
     output.append(document.createTextNode(text));
