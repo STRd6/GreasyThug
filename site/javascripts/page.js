@@ -3,9 +3,17 @@ commandHistory = new CommandHistory(Scorpio);
 
 var interactiveConsole = new IJC();
 
+interactiveConsole.element.hide();
+
 get("autorun", function(autorun) {
   if(autorun != 0) {
     executeActiveScripts();
+  }
+});
+
+get("autoshow", function(autoshow) {
+  if(autoshow != 0) {
+    interactiveConsole.element.show();
   }
 });
 
@@ -35,14 +43,7 @@ interactiveConsole.element.find("form")
 
 Scorpio.loadConfig(function(config) {
   console.log(config);
-  interactiveConsole.element.hide();
   interactiveConsole.attach(config.left || 0, config.top || 0);
-  
-  get("autoshow", function(autoshow) {
-    if(autoshow != 0) {
-      interactiveConsole.element.show();
-    }
-  });
 });
 
 function saveScript(title, code, active) {
@@ -105,22 +106,6 @@ function enableScript(id) {
 
 function savePreviouslyExecutedAs(title, active) {
   saveScript(title, commandHistory.last(), active);
-}
-
-/**
- * Functions to get and set values from the background page's local storage
- */
-function set(key, value) {
-  chrome.extension.sendRequest({action: "set", key: key, value: value}, function(response) {
-    console.log(response);
-  });
-}
-
-function get(key, callback) {
-  chrome.extension.sendRequest({action: "get", key: key}, function(response) {
-    console.log(response);
-    callback(response.value);
-  });
 }
 
 set("test", "new_test");

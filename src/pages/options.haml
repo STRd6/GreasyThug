@@ -1,8 +1,16 @@
+- options = %w[autorun autoshow]
+
+- options.each do |option|
+  = partial "checkbox", :locals => {:name => option}
+  :javascript
+    get('#{option}', function(value) {
+      alert("#{option} :" + value);
+      $('input[name=#{option}]').attr('checked', value != 0);
+    });
+
 :javascript
-  localStorage["count"] = parseInt(localStorage["count"], 10) + 1;
-  
-  $('body').append("count: " + localStorage["count"]);
-  $('body').append("clickCount: " + localStorage["clickCount"]);
-  $('body').append("tab: " + localStorage["tab"]);
-
-
+  $("input[type='checkbox']").change(function() {
+    $this = $(this);
+    
+    set($this.attr('name'), $this.attr('checked') ? '1' : '0');
+  });

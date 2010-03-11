@@ -25,6 +25,7 @@
         "javascripts/thug/command_history.js",
         "javascripts/thug/scorpio.js",
         "javascripts/thug/console.js",
+        "javascripts/util.js",
         "javascripts/page.js"
       ]
     }
