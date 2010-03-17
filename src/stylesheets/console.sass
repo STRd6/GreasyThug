@@ -2,7 +2,7 @@
 @import compass/utilities/general/float.sass
 @import blueprint/modules/buttons.sass
 
-!minWidth = 480px
+!minWidth = 520px
 
 !standard_margin = 8px
 
@@ -12,6 +12,11 @@
 !dark_gray = #587987
 !light_green = #a6d43c
 !dark_green = #476930
+
+=button-fonts
+  font-size: 12px
+  font-weight: bold
+  line-height: 13px
 
 #strd6-GreasyThugConsole
   +nested-reset
@@ -58,6 +63,7 @@
     +button-colors
     +button-hover-colors
     +button-active-colors
+    +button-fonts
     
     &.save
       vertical-align: middle
@@ -67,6 +73,7 @@
     margin= !standard_margin
     min-width= !minWidth
     width: auto
+
     textarea
       display: block
       height: 24px
@@ -78,4 +85,9 @@
       +button-colors
       +button-hover-colors
       +button-active-colors
+      +button-fonts
       margin-right: 20px
+
+    .titleEntry
+      font-size: 14px
+      vertical-align: middle
