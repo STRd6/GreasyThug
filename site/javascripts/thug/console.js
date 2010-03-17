@@ -2,6 +2,7 @@
 * This controls the interactive console for testing the Grease
 */
 var IJC = function() {
+  var TITLE = "Greasy Thug Console";
 
   function processSuccess(command, result, self) {
     // Clear Input
@@ -14,17 +15,17 @@ var IJC = function() {
 
   // Private Variables
   var callbacks = {keydown: [], command: [processSuccess]};
-  
-  var handle = $("<div class='handle'>Interactive JavaScript Console</div>");
+
+  var handle = $("<div class='handle'>"+TITLE+"</div>");
   var output = $("<pre class='outputBuffer'></pre>");
-    
+
   var puts = function(text) {
     output.append(document.createTextNode(text));
     output.append('<br />');
     // Scroll to bottom
     output[0].scrollTop = output[0].scrollHeight;
   };
-  
+
   var input = $("<textarea />")
     .keydown(function(event) {
       $.each(callbacks['keydown'], function(index, callback) {
@@ -59,11 +60,14 @@ var IJC = function() {
     return false;
   });
 
-  var chasis = $("<div class='ijc' id='strd6-GreasyThugConsole'></div")
-    .append(handle)
+  var main = $("<div class='main'/>")
     .append(output)
     .append(form)
-    .fadeTo("fast", 0.75)
+  ;
+
+  var chasis = $("<div class='ijc' id='strd6-GreasyThugConsole'></div")
+    .append(handle)
+    .append(main)
     .draggable({
       handle: ".handle",
       stop: function() {

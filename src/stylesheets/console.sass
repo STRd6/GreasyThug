@@ -1,40 +1,81 @@
+@import compass/reset
+@import compass/utilities/general/float.sass
+@import blueprint/modules/buttons.sass
+
 !minWidth = 480px
 
+!standard_margin = 8px
+
+!blue = #2bacf5
+!light_gray = #f0f3ea
+!gray = #ced9bc
+!dark_gray = #587987
+!light_green = #a6d43c
+!dark_green = #476930
+
 #strd6-GreasyThugConsole
-  background-color: black
-  color: green
+  +nested-reset
+
+  background-color= !gray
+  color= !dark_green
   font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,
-  padding-top: 0px
   position: absolute
   font-weight: bold
   text-align: left
   width: auto
   z-index: 1000
+  -webkit-border-radius: 3px
+  -webkit-border-top-left-radius: 8px
+  -webkit-border-top-right-radius: 8px
 
   .handle
-    background-color: #222
+    background-color= !dark_gray
+    color= !light_green
+    font-size: 15px
+    font-weight: bold
+    line-height: 18px
     min-width= !minWidth
-    padding: 2px 4px
+    padding: 2px 8px
     overflow: hidden
     width: auto
+    -webkit-border-top-left-radius: 8px
+    -webkit-border-top-right-radius: 8px
+    
+  .main
 
   .outputBuffer
+    background-color= !light_gray
     height: 80px
     min-width= !minWidth
     max-width: 600px
+    margin= !standard_margin
     overflow: auto
     padding: 4px
     width: auto
+    
+  button
+    +button-button
+    +button-colors
+    +button-hover-colors
+    +button-active-colors
+    
+    &.save
+      vertical-align: middle
 
   form
     display: block
+    margin= !standard_margin
     min-width= !minWidth
     width: auto
     textarea
       display: block
-      height: 250px
+      height: 24px
+      margin-bottom= !standard_margin
       min-width= !minWidth
 
     .execute
-      float: right
+      +button-button("right")
+      +button-colors
+      +button-hover-colors
+      +button-active-colors
       margin-right: 20px
