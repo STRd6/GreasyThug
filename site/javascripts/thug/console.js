@@ -89,8 +89,10 @@ var IJC = function() {
     }, 
     
     element: chasis,
-    
+
     input: input,
+
+    puts: puts,
     
     registerCallback: function(event, callback) {
       if(callbacks[event] != null) {

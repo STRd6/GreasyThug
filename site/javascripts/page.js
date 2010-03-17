@@ -50,6 +50,10 @@ function saveScript(title, code, active) {
     title: title,
     code: code,
     active: active != false ? 1 : 0
+  }, function(transaction, result) {
+    scriptTitleInput.val('');
+    interactiveConsole.puts("Saved previously executed script as: " + title);
+    interactiveConsole.puts("ID is " + result.insertId);
   });
 }
 

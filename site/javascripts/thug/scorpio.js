@@ -36,21 +36,27 @@ var Scorpio = function() {
   function TableInterface(table, options) {
     options = options || {};
     var primaryKey = options.primaryKey || 'id';
+    var errorHandler = function(transaction, result) {
+      if(logging) {
+        console.log(transaction);
+        console.log(result);
+      }
+    }
   
     return {
       all: function(callback) {
         db.execute('SELECT * FROM ' + table, [], function(transaction, result) {
           callback(rowsToObjects(result.rows));
-        });
+        }, errorHandler);
       },
       
       count: function(callback) {
         db.execute('SELECT COUNT(*) AS count FROM ' + table, [], function(transaction, result) {
           callback(result.rows.item(0).count);
-        });
+        }, errorHandler);
       },
       
-      create: function(object) {
+      create: function(object, callback) {
         var fields = [];
         var values = [];
         var placeholders = [];
@@ -65,7 +71,9 @@ var Scorpio = function() {
           'INSERT INTO ' + table + 
           ' (' + fields.join(', ') + ') ' +
           'VALUES(' + placeholders.join(', ') + ')',
-          values
+          values,
+          callback,
+          errorHandler
         );
       },
       
@@ -83,7 +91,8 @@ var Scorpio = function() {
           ' WHERE ' + primaryKey + ' = ?', [id],
           function(transaction, result) {
             callback(result.rows.item(0));
-          }
+          },
+          errorHandler
         );
       },
       
