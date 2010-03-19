@@ -1,6 +1,5 @@
-@import compass/reset
-@import compass/utilities/general/float.sass
 @import blueprint/modules/buttons.sass
+@import blueprint/modules/reset.sass
 
 !minWidth = 520px
 
@@ -19,7 +18,7 @@
   line-height: 13px
 
 #strd6-GreasyThugConsole
-  +nested-reset
+  +blueprint-nested-reset
 
   background-color= !gray
   color= !dark_green
@@ -45,8 +44,6 @@
     width: auto
     -webkit-border-top-left-radius: 8px
     -webkit-border-top-right-radius: 8px
-    
-  .main
 
   .outputBuffer
     background-color= !light_gray
