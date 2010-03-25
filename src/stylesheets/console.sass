@@ -17,7 +17,7 @@
   font-weight: bold
   line-height: 13px
 
-#strd6-GreasyThugConsole
+.strd6-window
   +blueprint-nested-reset
 
   background-color= !gray
@@ -35,6 +35,7 @@
   .handle
     background-color= !dark_gray
     color= !light_green
+    cursor: move
     font-size: 15px
     font-weight: bold
     line-height: 18px
@@ -45,16 +46,35 @@
     -webkit-border-top-left-radius: 8px
     -webkit-border-top-right-radius: 8px
 
-  .outputBuffer
+    .window-control
+      border: 1px solid white
+      color: white
+      float: right
+      height: 16px
+      margin-left: 4px
+      text-align: center
+      text-decoration: none
+      width: 16px
+      &.ui-close
+      &.ui-toggle
+
+  .content
     background-color= !light_gray
-    height: 80px
+    height: auto
+    margin: 4px
+    max-height: 480px
     min-width= !minWidth
     max-width: 600px
-    margin= !standard_margin
     overflow: auto
     padding: 4px
     width: auto
     
+  .outputBuffer
+    border= "1px solid #{!dark_gray}"
+    height: 80px
+    margin-bottom= !standard_margin
+    overflow-y: auto
+
   button
     +button-button
     +button-colors
@@ -67,7 +87,6 @@
 
   form
     display: block
-    margin= !standard_margin
     min-width= !minWidth
     width: auto
 

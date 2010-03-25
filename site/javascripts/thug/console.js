@@ -16,7 +16,14 @@ var IJC = function() {
   // Private Variables
   var callbacks = {keydown: [], command: [processSuccess]};
 
-  var handle = $("<div class='handle'>"+TITLE+"</div>");
+  var window = UI.window(TITLE, {
+    dragStop: function() {
+      Scorpio.storeConfig({
+        left: $( this ).css('left'),
+        top: $( this ).css('top')
+      });
+    }}
+  );
   var output = $("<pre class='outputBuffer'></pre>");
 
   var puts = function(text) {
@@ -60,27 +67,14 @@ var IJC = function() {
     return false;
   });
 
-  var main = $("<div class='main'/>")
-    .append(output)
-    .append(form)
+  window
+    .addChild(output)
+    .addChild(form)
   ;
-
-  var chasis = $("<div class='ijc' id='strd6-GreasyThugConsole'></div")
-    .append(handle)
-    .append(main)
-    .draggable({
-      handle: ".handle",
-      stop: function() {
-        Scorpio.storeConfig({
-          left: $( this ).css('left'),
-          top: $( this ).css('top')
-        });
-      }
-    }).css("position", "absolute");
 
   var self = {
     attach: function(left, top) {
-      $("body").append( chasis
+      $("body").append( window
         .css({
           'top': top, 
           'left': left
@@ -88,7 +82,7 @@ var IJC = function() {
       );
     }, 
     
-    element: chasis,
+    element: window,
 
     input: input,
 
