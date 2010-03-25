@@ -4,7 +4,6 @@
   = partial "checkbox", :locals => {:name => option}
   :javascript
     get('#{option}', function(value) {
-      alert("#{option} :" + value);
       $('input[name=#{option}]').attr('checked', value != 0);
     });
 
