@@ -22,22 +22,11 @@
     line-height: 18px
     min-width= !minWidth
     padding: 2px 8px
+    position: relative
     overflow: hidden
     width: auto
     -webkit-border-top-left-radius: 8px
     -webkit-border-top-right-radius: 8px
-
-    .window-control
-      border: 1px solid white
-      color: white
-      float: right
-      height: 16px
-      margin-left: 4px
-      text-align: center
-      text-decoration: none
-      width: 16px
-      &.ui-close
-      &.ui-toggle
 
   .content
     background-color= !light_gray
@@ -48,6 +37,25 @@
     overflow: auto
     padding: 4px
     width: auto
+    
+  .icon
+    background-color: transparent
+    background-repeat: no-repeat
+    border: 1px solid white
+    color: white
+    display: block
+    float: right
+    height: 16px
+    margin: 0px 2px
+    overflow: hidden
+    text-indent: -99999px
+    width: 16px
+    
+    &.close
+      background-position: -96px -128px
+    
+    &.toggle
+      background-position: 0 0
 
   button
     +button-button

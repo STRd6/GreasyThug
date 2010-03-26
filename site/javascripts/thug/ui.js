@@ -1,5 +1,6 @@
 var UI = (function() {
   var imgURL = chrome.extension.getURL("") + "stylesheets/dark-hive/images/"
+  var backgroundImage = "url(" + imgURL + "ui-icons_ffffff_256x240.png)";
 
   return {
 
@@ -34,17 +35,22 @@ var UI = (function() {
         })
       ;
       
-      var close = $("<a class='window-control' href='#'>X</a>")
+      var close = $("<a class='icon close' href='#'>X</a>")
         .click(function() {
           window.hide();
           return false;
         })
+        .css({
+          backgroundImage: backgroundImage
+        })
       ;
       
-      var toggle = $("<a class='window-control' href='#'>_</a>")
+      var toggle = $("<a class='icon toggle' href='#'>_</a>")
         .click(function() {
           content.slideToggle();
           return false;
+        }).css({
+          backgroundImage: backgroundImage
         })
       ;
       
