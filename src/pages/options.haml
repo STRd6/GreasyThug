@@ -1,11 +1,16 @@
-- options = %w[autorun autoshow]
+%h1 GreasyThug Configuration
 
-- options.each do |option|
-  = partial "checkbox", :locals => {:name => option}
-  :javascript
-    get('#{option}', function(value) {
-      $('input[name=#{option}]').attr('checked', value != 0);
-    });
+%form
+  %fieldset
+    %legend Options
+    - options = %w[autorun autoshow]
+
+    - options.each do |option|
+      %p= partial "checkbox", :locals => {:name => option}
+      :javascript
+        get('#{option}', function(value) {
+          $('input[name=#{option}]').attr('checked', value != 0);
+        });
 
 :javascript
   $("input[type='checkbox']").change(function() {
