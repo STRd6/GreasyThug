@@ -1,22 +1,3 @@
-@import blueprint/modules/buttons.sass
-@import blueprint/modules/reset.sass
-
-!minWidth = 520px
-
-!standard_margin = 8px
-
-!blue = #2bacf5
-!light_gray = #f0f3ea
-!gray = #ced9bc
-!dark_gray = #587987
-!light_green = #a6d43c
-!dark_green = #476930
-
-=button-fonts
-  font-size: 12px
-  font-weight: bold
-  line-height: 13px
-
 .strd6-window
   +blueprint-nested-reset
 
@@ -64,16 +45,9 @@
     margin: 4px
     max-height: 480px
     min-width= !minWidth
-    max-width: 600px
     overflow: auto
     padding: 4px
     width: auto
-    
-  .outputBuffer
-    border= "1px solid #{!dark_gray}"
-    height: 80px
-    margin-bottom= !standard_margin
-    overflow-y: auto
 
   button
     +button-button
@@ -81,9 +55,6 @@
     +button-hover-colors
     +button-active-colors
     +button-fonts
-    
-    &.save
-      vertical-align: middle
 
   form
     display: block
@@ -95,15 +66,3 @@
       height: 24px
       margin-bottom= !standard_margin
       min-width= !minWidth
-
-    .execute
-      +button-button("right")
-      +button-colors
-      +button-hover-colors
-      +button-active-colors
-      +button-fonts
-      margin-right: 20px
-
-    .titleEntry
-      font-size: 14px
-      vertical-align: middle

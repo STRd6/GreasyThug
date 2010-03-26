@@ -1,0 +1,26 @@
+.strd6-window
+  .outputBuffer
+    border= "1px solid #{!dark_gray}"
+    height: 80px
+    margin-bottom= !standard_margin
+    max-width: 600px
+    overflow-y: auto
+
+
+
+  form
+    button
+      &.save
+        vertical-align: middle
+
+    .execute
+      +button-button("right")
+      +button-colors
+      +button-hover-colors
+      +button-active-colors
+      +button-fonts
+      margin-right: 20px
+
+    .titleEntry
+      font-size: 14px
+      vertical-align: middle

@@ -17,7 +17,7 @@
       "matches": ["http://*/*"],
       "css": [
         "stylesheets/dark-hive/jquery-ui-1.8rc2.custom.css",
-        "stylesheets/console.css"
+        "stylesheets/content_script.css"
       ],
       "js": [
         "javascripts/jquery-1.4.2.min.js",
