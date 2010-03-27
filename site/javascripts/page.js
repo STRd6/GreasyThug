@@ -5,6 +5,12 @@ var interactiveConsole = new IJC();
 
 interactiveConsole.element.hide();
 
+var logging = false;
+
+get("logging", function(val) {
+  logging = (val == "1");
+});
+
 get("autorun", function(autorun) {
   if(autorun != 0) {
     executeActiveScripts();
@@ -41,7 +47,6 @@ interactiveConsole.element.find("form")
   .append(scriptTitleInput);
 
 Scorpio.loadConfig(function(config) {
-  console.log(config);
   interactiveConsole.attach(config.left || 0, config.top || 0);
 });
 
@@ -110,10 +115,6 @@ function enableScript(id) {
 function savePreviouslyExecutedAs(title, active) {
   saveScript(title, commandHistory.last(), active);
 }
-
-set("test", "new_test");
-
-get("test", function(val){console.log(val)});
 
 chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {

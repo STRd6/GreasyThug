@@ -2,8 +2,12 @@
  *  Scorpio handles all the database connectivity.
  */
 var Scorpio = function() {
-  var logging = true;
+  var logging = false;
   var db;
+  
+  get("logging", function(val) {
+    logging = (val == "1");
+  });
 
   var createTables = function(db) {
     db.execute('CREATE TABLE IF NOT EXISTS config (key VARCHAR(16) PRIMARY KEY, value VARCHAR(16))');

@@ -3,13 +3,18 @@
  */
 function set(key, value) {
   chrome.extension.sendRequest({action: "set", key: key, value: value}, function(response) {
-    console.log(response);
+    if(logging) {
+      console.log(response);
+    }
   });
 }
 
 function get(key, callback) {
   chrome.extension.sendRequest({action: "get", key: key}, function(response) {
-    console.log(response);
+    if(logging) {
+      console.log(response);
+    }
+
     callback(response.value);
   });
 }

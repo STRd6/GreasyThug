@@ -3,7 +3,7 @@
 %form
   %fieldset
     %legend Options
-    - options = %w[autorun autoshow]
+    - options = %w[autorun autoshow logging]
 
     - options.each do |option|
       %p= partial "checkbox", :locals => {:name => option}
