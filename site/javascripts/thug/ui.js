@@ -24,15 +24,14 @@ var UI = (function() {
       return checkbox;
     },
 
-    list: function UI_list() {
+    list: function UI_list(orderChanged) {
       var list = $("<ul />");
 
       list.sortable({
-        start: function() {
-          console.log("SORT: Start");
-        },
         stop: function() {
-          console.log("SORT: Stop");
+          if(orderChanged) {
+            orderChanged($(this));
+          }
         }
       });
 
