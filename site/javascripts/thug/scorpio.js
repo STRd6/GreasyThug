@@ -12,7 +12,16 @@ var Scorpio = function() {
   var createTables = function(db) {
     db.execute('CREATE TABLE IF NOT EXISTS config (key VARCHAR(16) PRIMARY KEY, value VARCHAR(16))');
     db.execute('CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY, code TEXT)');
-    db.execute('CREATE TABLE IF NOT EXISTS scripts (id INTEGER PRIMARY KEY, title VARCHAR(255), code TEXT, active BOOLEAN DEFAULT 0)');
+    db.execute('CREATE TABLE IF NOT EXISTS scripts ('+
+      'id INTEGER PRIMARY KEY, '+
+      'title VARCHAR(255) NOT NULL, '+
+      'code TEXT NOT NULL, '+
+      'active BOOLEAN NOT NULL DEFAULT 0, '+
+      'position INTEGER NOT NULL DEFAULT 0'+
+    ')');
+
+    // Legacy, assumes no ill effects if column already there
+    db.execute('ALTER TABLE scripts ADD COLUMN position INTEGER NOT NULL DEFAULT 0');
   }
   
   var dropTables = function(db) {
@@ -21,6 +30,22 @@ var Scorpio = function() {
     db.execute('DROP TABLE IF EXISTS scripts');
   }
   
+  /**
+   * Handles parssing of optional arguments that may appear before callback.
+   * EX:
+   *   all(options, callback)
+   *   all(callback)
+   */
+  function optionPasser(method) {
+    return function(arg1, arg2) {
+      if(arg2 === undefined) {
+        return method({}, arg1);
+      } else {
+        return method(arg1, arg2);
+      }
+    }
+  }
+
   /**
    *  Converts the result rows to an array of objects.
    */
@@ -46,19 +71,31 @@ var Scorpio = function() {
         console.log(result);
       }
     }
+
+    function sqlRunner(query, options, callback) {
+      var order = options.order;
+
+      var params = [];
+
+      if(order) {
+        query += " ORDER BY " + order + " ";
+      }
+
+      db.execute(query, params, callback, errorHandler);
+    }
   
     return {
-      all: function(callback) {
-        db.execute('SELECT * FROM ' + table, [], function(transaction, result) {
+      all: optionPasser(function(options, callback) {
+        sqlRunner('SELECT * FROM ' + table, options, function(transaction, result) {
           callback(rowsToObjects(result.rows));
-        }, errorHandler);
-      },
+        });
+      }),
       
-      count: function(callback) {
-        db.execute('SELECT COUNT(*) AS count FROM ' + table, [], function(transaction, result) {
+      count: optionPasser(function(options, callback) {
+        sqlRunner('SELECT COUNT(*) AS count FROM ' + table, options, function(transaction, result) {
           callback(result.rows.item(0).count);
-        }, errorHandler);
-      },
+        });
+      }),
       
       create: function(object, callback) {
         var fields = [];
