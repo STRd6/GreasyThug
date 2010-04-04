@@ -24,6 +24,18 @@ var UI = (function() {
       return checkbox;
     },
 
+    confirm: function UI_confirm(message, accept, reject) {
+      if(confirm(message)) {
+        if(accept) {
+          return accept();
+        }
+      } else {
+        if(reject) {
+          return reject();
+        }
+      }
+    },
+
     list: function UI_list(orderChanged) {
       var list = $("<ul />");
 

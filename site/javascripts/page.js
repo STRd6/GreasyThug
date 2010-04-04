@@ -40,11 +40,18 @@ var saveButton = $("<button class='save'>Save Previous</button>").click(function
   return false;
 }).attr('title', "Persist the last script executed to be run on subsequent page loads.");
 
+var showScriptsButton = $("<button class='showScripts'>Show Scripts</button>").click(function() {
+  scriptManager.toggle();
+  return false;
+});
+
 interactiveConsole.element.find("form")
   .append(prevButton)
   .append(nextButton)
   .append(saveButton)
-  .append(scriptTitleInput);
+  .append(scriptTitleInput)
+  .append(showScriptsButton)
+;
 
 Scorpio.loadConfig(function(config) {
   interactiveConsole.attach(config.left || 0, config.top || 0);
@@ -56,49 +63,40 @@ function saveScript(title, code, active) {
     code: code,
     active: active != false ? 1 : 0
   }, function(transaction, result) {
+    var id = result.insertId;
     scriptTitleInput.val('');
     interactiveConsole.puts("Saved previously executed script as: " + title);
-    interactiveConsole.puts("ID is " + result.insertId);
+    interactiveConsole.puts("ID is " + id);
+
+    Scorpio.scripts.find(id, function(script) {
+      addScriptItem(script, scriptList);
+      updateScriptPositions(scriptList);
+      scriptManager.show();
+    });
   });
 }
 
 function executeActiveScripts() {
-  Scorpio.scripts.all({order: "position"}, function(scripts) {
+  Scorpio.scripts.all({order: "position", conditions: "active = 1"}, function(scripts) {
     $.each(scripts, function(index, script) {
       var title = script.title;
       var code = script.code;
       var id = script.id;
+      var token = title + "(ID:" + id + " )";
 
-      console.log("Script ["+id+"]: " + title);
-      console.log(code);
       try {
-        
-        if(script.active) {
-          console.log("[Executing]");
-          eval(code);
-        } else {
-          console.log("[Skipping, Inactive]");
-        }
+        console.log("[Executing " + token + "]");
+        eval(code);
       } catch(e) {
-        console.log("Error Running: " + title);
+        console.log("Error Running: " + token);
         console.log(e);
       }
     });
   });
 }
 
-function listScripts() {
+function loadLocalScripts() {
   Scorpio.scripts.all({order: "position"}, function(scripts) {
-    var scriptManager = UI.window("Scripts");
-
-    var scriptList = UI.list(function(list) {
-      list.find("li").each(function(position) {
-        Scorpio.scripts.update($(this).data("id"), {position: position});
-      });
-    });
-
-    scriptManager.addChild(scriptList);
-
     $.each(scripts, function(index, script) {
       var title = script.title || "Untitled";
       var code = script.code;
@@ -106,28 +104,59 @@ function listScripts() {
 
       if(logging) {
         console.log("Script ["+id+"]: " + title);
-        console.log(code);
+        console.log(script);
       }
 
-      var scriptItem = $("<li />")
-        .text(title + " (ID: " + id + ")")
-        .attr("title", code)
-      ;
-      scriptItem.prepend(UI.checkbox(script.active, function(activate) {
-        Scorpio.scripts.update(id, {active: activate ? 1 : 0});
-      }));
-
-      scriptItem.data("id", id);
-
-      scriptList.append(scriptItem);
+      addScriptItem(script, scriptList);
     });
 
-    $("body").append(scriptManager);
+    updateScriptPositions(scriptList);
   });
 }
 
+function addScriptItem(script, scriptList) {
+  var id = script.id;
+  var title = script.title;
+
+  var scriptItem = $("<li />")
+    .text(title + " (ID: " + id + ")")
+    .attr("title", script.code)
+  ;
+
+  scriptItem.prepend(UI.checkbox(script.active, function(activate) {
+    Scorpio.scripts.update(id, {active: activate ? 1 : 0});
+  }));
+
+  scriptItem.append($("<span class='remove' />").text("X").attr("title", "Delete " + title).click(function() {
+    UI.confirm("Really delete " + title + "?", function() {
+      deleteScript(id);
+    });
+  }));
+
+  scriptList.append(scriptItem);
+
+  //TODO: Figure out why jQuery forgets data after the items have been added to the list
+  scriptItem.attr("scriptId", id);
+}
+
+var scriptManager = UI.window("Scripts").hide();
+var scriptList = UI.list(updateScriptPositions);
+
+scriptManager.addChild(scriptList);
+$("body").append(scriptManager);
+
+function updateScriptPositions(list) {
+  list.find("li").each(function(position) {
+    Scorpio.scripts.update($(this).attr("scriptId"), {position: position});
+  });
+}
+
+loadLocalScripts();
+
 function deleteScript(id) {
   Scorpio.scripts.destroy(id);
+
+  scriptList.find("li[scriptId='"+id+"']").remove();
 }
 
 function disableScript(id) {
