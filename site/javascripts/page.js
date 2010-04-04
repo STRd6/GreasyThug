@@ -63,12 +63,12 @@ function saveScript(title, code, active) {
 }
 
 function executeActiveScripts() {
-  Scorpio.scripts.all(function(scripts) {
+  Scorpio.scripts.all({order: "position"}, function(scripts) {
     $.each(scripts, function(index, script) {
       var title = script.title;
       var code = script.code;
       var id = script.id;
-      
+
       console.log("Script ["+id+"]: " + title);
       console.log(code);
       try {
@@ -88,10 +88,14 @@ function executeActiveScripts() {
 }
 
 function listScripts() {
-  Scorpio.scripts.all(function(scripts) {
+  Scorpio.scripts.all({order: "position"}, function(scripts) {
     var scriptManager = UI.window("Scripts");
 
-    var scriptList = UI.list();
+    var scriptList = UI.list(function(list) {
+      list.find("li").each(function(position) {
+        Scorpio.scripts.update($(this).data("id"), {position: position});
+      });
+    });
 
     scriptManager.addChild(scriptList);
 
@@ -106,9 +110,11 @@ function listScripts() {
       }
 
       var scriptItem = $("<li />").text(id + ": " + title);
-      scriptItem.append(UI.checkbox(script.active, function(activate) {
+      scriptItem.prepend(UI.checkbox(script.active, function(activate) {
         Scorpio.scripts.update(id, {active: activate ? 1 : 0});
       }));
+
+      scriptItem.data("id", id);
 
       scriptList.append(scriptItem);
     });
