@@ -1,4 +1,4 @@
-Greasy Thug v0.0.2
+Greasy Thug v0.1.0
 ==================
 
 I've been called a greasy thug, too. It never stops hurting. So here's what we're gonna do: We're gonna grease ourselves up real good and trash that place with a baseball bat. - Homer
@@ -14,7 +14,6 @@ After installing Greasy Thug, click the console icon browser action that has bee
 
 Type `alert("Hello World")` into the text area in the console. Click `Execute`. This will execute the script you just typed in. Now click `Save Previous`. This will save the previously executed script to be run every time you return to the page.
 
-Removing Your First Page-mod
-============================
+The 'Scripts' window will appear showing the script you just added. If you have multiple scripts you can rearrange the order in which they execute by dragging and dropping. You can also toggle which scripts should execute with the checkbox. Scripts can be deleted by clicking on the 'X'.
 
-You're probably wondering how to make that annoying "Hello World" popup go away. In the Thug console type `deleteScript(1)` and press `Execute`. Make sure 1 is the id of the script, you can check the actual non-thug console, it should say something like `Script [1]: ` and display the code that comprises the script on the next line.
+Happy Thugging!
