@@ -109,7 +109,10 @@ function listScripts() {
         console.log(code);
       }
 
-      var scriptItem = $("<li />").text(id + ": " + title);
+      var scriptItem = $("<li />")
+        .text(title + " (ID: " + id + ")")
+        .attr("title", code)
+      ;
       scriptItem.prepend(UI.checkbox(script.active, function(activate) {
         Scorpio.scripts.update(id, {active: activate ? 1 : 0});
       }));
