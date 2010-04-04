@@ -8,11 +8,39 @@ var UI = (function() {
       var button = $("<button />");
       button.text(text);
       button.click(callback);
-      
+
       return button;
     },
 
+    checkbox: function UI_checkbox(checked, toggle) {
+      var checkbox = $("<input type='checkbox' />");
+
+      checkbox.attr("checked", checked != 0);
+
+      checkbox.change(function() {
+        toggle($(this).attr("checked"));
+      });
+
+      return checkbox;
+    },
+
+    list: function UI_list() {
+      var list = $("<ul />");
+
+      list.sortable({
+        start: function() {
+          console.log("SORT: Start");
+        },
+        stop: function() {
+          console.log("SORT: Stop");
+        }
+      });
+
+      return list;
+    },
+
     window: function UI_window(title, options) {
+      options = options || {};
       var dragStop = options.dragStop || function(){};
     
       var handle = $("<div class='handle' />")

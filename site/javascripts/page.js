@@ -89,14 +89,31 @@ function executeActiveScripts() {
 
 function listScripts() {
   Scorpio.scripts.all(function(scripts) {
+    var scriptManager = UI.window("Scripts");
+
+    var scriptList = UI.list();
+
+    scriptManager.addChild(scriptList);
+
     $.each(scripts, function(index, script) {
-      var title = script.title;
+      var title = script.title || "Untitled";
       var code = script.code;
       var id = script.id;
-      
-      console.log("Script ["+id+"]: " + title);
-      console.log(code);
+
+      if(logging) {
+        console.log("Script ["+id+"]: " + title);
+        console.log(code);
+      }
+
+      var scriptItem = $("<li />").text(id + ": " + title);
+      scriptItem.append(UI.checkbox(script.active, function(activate) {
+        Scorpio.scripts.update(id, {active: activate ? 1 : 0});
+      }));
+
+      scriptList.append(scriptItem);
     });
+
+    $("body").append(scriptManager);
   });
 }
 
