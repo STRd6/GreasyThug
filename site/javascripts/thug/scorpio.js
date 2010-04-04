@@ -73,9 +73,14 @@ var Scorpio = function() {
     }
 
     function sqlRunner(query, options, callback) {
+      var conditions = options.conditions;
       var order = options.order;
 
       var params = [];
+
+      if(conditions) {
+        query += " WHERE " + conditions + " ";
+      }
 
       if(order) {
         query += " ORDER BY " + order + " ";
