@@ -42,7 +42,7 @@ function ScriptManager(Scripts) {
 
   function deleteScript(id) {
     Scripts.destroy(id);
-    itemWithId.remove();
+    itemWithId(id).remove();
   }
 
   function editScript(script) {
