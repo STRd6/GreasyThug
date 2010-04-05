@@ -16,7 +16,7 @@ var IJC = function() {
   // Private Variables
   var callbacks = {keydown: [], command: [processSuccess]};
 
-  var window = UI.window(TITLE, {
+  var window = UI.Window(TITLE, {
     dragStop: function() {
       Scorpio.storeConfig({
         left: $( this ).css('left'),

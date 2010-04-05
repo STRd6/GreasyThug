@@ -1,7 +1,7 @@
 function ScriptManager(Scripts) {
-  var scriptList = UI.list(updateScriptPositions);
+  var scriptList = UI.List(updateScriptPositions);
 
-  var self = UI.window("Scripts").hide();
+  var self = UI.Window("Scripts").hide();
   self.addChild(scriptList);
   $("body").append(self);
 
@@ -21,12 +21,12 @@ function ScriptManager(Scripts) {
       console.log("DBL CLCK");
     });
 
-    scriptItem.prepend(UI.checkbox(script.active, function(activate) {
+    scriptItem.prepend(UI.Checkbox(script.active, function(activate) {
       Scripts.update(id, {active: activate ? 1 : 0});
     }));
 
     scriptItem.append($("<span class='remove' />").text("X").attr("title", "Delete " + title).click(function() {
-      UI.confirm("Really delete " + title + "?", function() {
+      UI.Confirm("Really delete " + title + "?", function() {
         deleteScript(id);
       });
     }));

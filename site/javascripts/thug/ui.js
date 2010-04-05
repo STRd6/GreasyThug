@@ -4,7 +4,7 @@ var UI = (function() {
 
   return {
 
-    button: function UI_button(text, callback) {
+    Button: function UI_button(text, callback) {
       var button = $("<button />");
       button.text(text);
       button.click(callback);
@@ -12,7 +12,7 @@ var UI = (function() {
       return button;
     },
 
-    checkbox: function UI_checkbox(checked, toggle) {
+    Checkbox: function UI_checkbox(checked, toggle) {
       var checkbox = $("<input type='checkbox' />");
 
       checkbox.attr("checked", checked != 0);
@@ -24,7 +24,7 @@ var UI = (function() {
       return checkbox;
     },
 
-    confirm: function UI_confirm(message, accept, reject) {
+    Confirm: function UI_confirm(message, accept, reject) {
       if(confirm(message)) {
         if(accept) {
           return accept();
@@ -36,7 +36,7 @@ var UI = (function() {
       }
     },
 
-    list: function UI_list(orderChanged) {
+    List: function UI_list(orderChanged) {
       var list = $("<ul />");
 
       list.sortable({
@@ -50,7 +50,7 @@ var UI = (function() {
       return list;
     },
 
-    window: function UI_window(title, options) {
+    Window: function UI_window(title, options) {
       options = options || {};
       var dragStop = options.dragStop || function(){};
     
