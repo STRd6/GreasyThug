@@ -1,6 +1,7 @@
 Scorpio.init();
 commandHistory = new CommandHistory(Scorpio);
 
+var scriptManager = ScriptManager(Scorpio.scripts);
 var interactiveConsole = new IJC();
 
 interactiveConsole.element.hide();
@@ -57,25 +58,6 @@ Scorpio.loadConfig(function(config) {
   interactiveConsole.attach(config.left || 0, config.top || 0);
 });
 
-function saveScript(title, code, active) {
-  Scorpio.scripts.create({
-    title: title,
-    code: code,
-    active: active != false ? 1 : 0
-  }, function(transaction, result) {
-    var id = result.insertId;
-    scriptTitleInput.val('');
-    interactiveConsole.puts("Saved previously executed script as: " + title);
-    interactiveConsole.puts("ID is " + id);
-
-    Scorpio.scripts.find(id, function(script) {
-      addScriptItem(script, scriptList);
-      updateScriptPositions(scriptList);
-      scriptManager.show();
-    });
-  });
-}
-
 function executeActiveScripts() {
   Scorpio.scripts.all({order: "position", conditions: "active = 1"}, function(scripts) {
     $.each(scripts, function(index, script) {
@@ -95,80 +77,9 @@ function executeActiveScripts() {
   });
 }
 
-function loadLocalScripts() {
-  Scorpio.scripts.all({order: "position"}, function(scripts) {
-    $.each(scripts, function(index, script) {
-      var title = script.title || "Untitled";
-      var code = script.code;
-      var id = script.id;
-
-      if(logging) {
-        console.log("Script ["+id+"]: " + title);
-        console.log(script);
-      }
-
-      addScriptItem(script, scriptList);
-    });
-
-    updateScriptPositions(scriptList);
-  });
-}
-
-function addScriptItem(script, scriptList) {
-  var id = script.id;
-  var title = script.title;
-
-  var scriptItem = $("<li />")
-    .text(title + " (ID: " + id + ")")
-    .attr("title", script.code)
-  ;
-
-  scriptItem.prepend(UI.checkbox(script.active, function(activate) {
-    Scorpio.scripts.update(id, {active: activate ? 1 : 0});
-  }));
-
-  scriptItem.append($("<span class='remove' />").text("X").attr("title", "Delete " + title).click(function() {
-    UI.confirm("Really delete " + title + "?", function() {
-      deleteScript(id);
-    });
-  }));
-
-  scriptList.append(scriptItem);
-
-  //TODO: Figure out why jQuery forgets data after the items have been added to the list
-  scriptItem.attr("scriptId", id);
-}
-
-var scriptManager = UI.window("Scripts").hide();
-var scriptList = UI.list(updateScriptPositions);
-
-scriptManager.addChild(scriptList);
-$("body").append(scriptManager);
-
-function updateScriptPositions(list) {
-  list.find("li").each(function(position) {
-    Scorpio.scripts.update($(this).attr("scriptId"), {position: position});
-  });
-}
-
-loadLocalScripts();
-
-function deleteScript(id) {
-  Scorpio.scripts.destroy(id);
-
-  scriptList.find("li[scriptId='"+id+"']").remove();
-}
-
-function disableScript(id) {
-  Scorpio.scripts.update(id, {active: 0});
-}
-
-function enableScript(id) {
-  Scorpio.scripts.update(id, {active: 1});
-}
-
 function savePreviouslyExecutedAs(title, active) {
-  saveScript(title, commandHistory.last(), active);
+  scriptManager.saveScript(title, commandHistory.last(), active);
+  scriptTitleInput.val('');
 }
 
 chrome.extension.onRequest.addListener(

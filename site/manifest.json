@@ -1,6 +1,6 @@
 {
   "name": "Greasy Thug",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "I've been called a greasy thug too. It never stops hurting. Here's what we're gonna do: We're gonna grease ourselves up real good...",
   "icons": {
     "48": "images/blimpy_48x48.png",
@@ -30,6 +30,7 @@
         "javascripts/thug/scorpio.js",
         "javascripts/thug/ui.js",
         "javascripts/thug/console.js",
+        "javascripts/thug/script_manager.js",
         "javascripts/page.js"
       ]
     }
