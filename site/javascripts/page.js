@@ -27,21 +27,25 @@ get("autoshow", function(autoshow) {
 interactiveConsole.registerCallback('command', commandHistory.add)
 //interactiveConsole.registerCallback('keydown', commandHistory.arrowKeyEvent);
 
-var prevButton = $("<button class='prev'>&lt; Prev</button>").click( function() {
+var prevButton = UI.Button("< Prev", {class: "prev"}, function() {
   commandHistory.changeConsoleCommand(-1, interactiveConsole); 
   return false;
 });
-var nextButton = $("<button class='next'>Next &gt;</button>").click(function() {
+var nextButton = UI.Button("Next >", {class: "next"}, function() {
   commandHistory.changeConsoleCommand(1, interactiveConsole);
   return false;
 });
 var scriptTitleInput = $("<input class='titleEntry' />").attr('title', "Name to save script as");
-var saveButton = $("<button class='save'>Save Previous</button>").click(function() {
-  savePreviouslyExecutedAs(scriptTitleInput.val(), 1);
-  return false;
-}).attr('title', "Persist the last script executed to be run on subsequent page loads.");
+var saveButton = UI.Button("Save Previous", {
+    class: "save",
+    title: "Persist the last script executed to be run on subsequent page loads."
+  }, function() {
+    savePreviouslyExecutedAs(scriptTitleInput.val(), 1);
+    return false;
+  }
+);
 
-var showScriptsButton = $("<button class='showScripts'>Show Scripts</button>").click(function() {
+var showScriptsButton = UI.Button("Show Scripts", {class: "showScripts"}, function() {
   scriptManager.toggle();
   return false;
 });

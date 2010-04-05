@@ -27,6 +27,10 @@ var UI = (function() {
       .addClass(options.class)
     ;
 
+    if(options.title !== undefined) {
+      elem.attr("title", options.title);
+    }
+
     return elem;
   }
 

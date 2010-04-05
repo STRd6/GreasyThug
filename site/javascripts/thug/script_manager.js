@@ -16,9 +16,10 @@ function ScriptManager(Scripts) {
     var scriptItem = $("<li />")
       .append(
         UI.Span(title + " (ID: " + id + ")", {
-          class: "title"
+          class: "title",
+          title: script.code
         })
-      ).attr("title", script.code)
+      )
     ;
 
     scriptItem.dblclick(function(event) {
@@ -31,7 +32,7 @@ function ScriptManager(Scripts) {
       Scripts.update(id, {active: activate ? 1 : 0});
     }));
 
-    scriptItem.append(UI.Span("X", {class: "remove"}).attr("title", "Delete " + title).click(function() {
+    scriptItem.append(UI.Span("X", {class: "remove", title: "Delete " + title}).click(function() {
       UI.Confirm("Really delete " + title + "?", function() {
         deleteScript(id);
       });
