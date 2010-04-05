@@ -1,6 +1,6 @@
 {
   "name": "Greasy Thug",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "I've been called a greasy thug too. It never stops hurting. Here's what we're gonna do: We're gonna grease ourselves up real good...",
   "icons": {
     "48": "images/blimpy_48x48.png",
@@ -14,7 +14,10 @@
 
   "content_scripts": [
     {
-      "matches": ["http://*/*"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
       "css": [
         "stylesheets/dark-hive/jquery-ui-1.8rc2.custom.css",
         "stylesheets/content_script.css"
