@@ -7,18 +7,21 @@ function ScriptManager(Scripts) {
 
   loadLocalScripts();
 
+  var editWindows = {};
+
   function addScriptItem(script) {
     var id = script.id;
     var title = script.title;
 
     var scriptItem = $("<li />")
-      .text(title + " (ID: " + id + ")")
+      .append($("<span class='title'>" + title + " (ID: " + id + ")</span>"))
       .attr("title", script.code)
     ;
 
     scriptItem.dblclick(function(event) {
-      //TODO: Edit
-      console.log("DBL CLCK");
+      Scripts.find(id, function(script) {
+        editScript(script);
+      });
     });
 
     scriptItem.prepend(UI.Checkbox(script.active, function(activate) {
@@ -39,7 +42,59 @@ function ScriptManager(Scripts) {
 
   function deleteScript(id) {
     Scripts.destroy(id);
-    scriptList.find("li[scriptId='"+id+"']").remove();
+    itemWithId.remove();
+  }
+
+  function editScript(script) {
+    var id = script.id;
+    var title = script.title;
+
+    var editWindow;
+    if(editWindows[id]) {
+      editWindow = editWindows[id];
+    } else {
+      editWindow = editWindows[id] = UI.Window("Edit " + title);
+
+      var titleField = $("<input type='text' />");
+      titleField.val(title);
+
+      var codeArea = $("<textarea />");
+      codeArea.val(script.code);
+
+      var runButton = UI.Button("Run", function() {
+        var code = codeArea.val();
+        try {
+          eval(code);
+        } catch(e) {
+          alert(e.message);
+        }
+      });
+
+      var saveButton = UI.Button("Save", function() {
+        var code = codeArea.val();
+        var title = titleField.val();
+        Scripts.update(id, {title: title, code: code});
+        itemWithId(id)
+          .attr("title", code)
+          .find(".title")
+            .text(title + " (ID: " + id + ")")
+        ;
+      });
+
+      editWindow
+        .addChild(titleField)
+        .addChild(codeArea)
+        .addChild(runButton)
+        .addChild(saveButton)
+        .appendTo("body")
+      ;
+    }
+
+    editWindow.show();
+  }
+
+  function itemWithId(id) {
+    return scriptList.find("li[scriptId='"+id+"']");
   }
 
   function loadLocalScripts() {
