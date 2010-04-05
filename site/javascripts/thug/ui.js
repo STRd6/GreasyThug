@@ -2,15 +2,43 @@ var UI = (function() {
   var imgURL = chrome.extension.getURL("") + "stylesheets/dark-hive/images/"
   var backgroundImage = "url(" + imgURL + "ui-icons_ffffff_256x240.png)";
 
+  function ensureOptions(method) {
+    return function(arg1, arg2) {
+      if(arg2 === undefined) {
+        return method(arg1, {});
+      } else {
+        return method(arg1, arg2);
+      }
+    }
+  }
+
+  function ensureOptionsAndCallback(method) {
+    return function(arg1, arg2, arg3) {
+      if(typeof(arg2) == "function") {
+        return method(arg1, {}, arg2);
+      } else {
+        return method(arg1, arg2, arg3);
+      }
+    }
+  }
+
+  function applyOptions(elem, options) {
+    elem
+      .addClass(options.class)
+    ;
+
+    return elem;
+  }
+
   return {
 
-    Button: function UI_button(text, callback) {
+    Button: ensureOptionsAndCallback(function UI_button(text, options, callback) {
       var button = $("<button />");
       button.text(text);
       button.click(callback);
 
-      return button;
-    },
+      return applyOptions(button, options);
+    }),
 
     Checkbox: function UI_checkbox(checked, toggle) {
       var checkbox = $("<input type='checkbox' />");
@@ -50,16 +78,23 @@ var UI = (function() {
       return list;
     },
 
-    Window: function UI_window(title, options) {
-      options = options || {};
+    Span: ensureOptions(function UI_span(text, options) {
+      var span = $("<span />");
+
+      span.text(text);
+
+      return applyOptions(span, options);
+    }),
+
+    Window: ensureOptions(function UI_window(title, options) {
       var dragStop = options.dragStop || function(){};
-    
+
       var handle = $("<div class='handle' />")
-        .text(title)
+        .append(UI.Span(title, {class: "title"}))
       ;
-      
+
       var content = $("<div class='content' />");
-      
+
       var window = $("<div class='strd6-window' />")
         .append(handle)
         .append(content)
@@ -101,6 +136,6 @@ var UI = (function() {
       }
       
       return window;
-    }
+    })
   }
 })();
