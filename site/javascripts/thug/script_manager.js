@@ -63,7 +63,7 @@ function ScriptManager(Scripts) {
       titleField.val(title);
 
       var codeArea = $("<textarea />");
-      codeArea.val(script.code);
+      codeArea.val(script.code).css("height", 142);
 
       var runButton = UI.Button("Run", function() {
         var code = codeArea.val();
