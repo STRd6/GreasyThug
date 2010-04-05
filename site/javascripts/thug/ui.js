@@ -89,9 +89,8 @@ var UI = (function() {
     Window: ensureOptions(function UI_window(title, options) {
       var dragStop = options.dragStop || function(){};
 
-      var handle = $("<div class='handle' />")
-        .append(UI.Span(title, {class: "title"}))
-      ;
+      var title = UI.Span(title, {class: "title"});
+      var handle = $("<div class='handle' />").append(title);
 
       var content = $("<div class='content' />");
 
@@ -118,7 +117,7 @@ var UI = (function() {
           backgroundImage: backgroundImage
         })
       ;
-      
+
       var toggle = $("<a class='icon toggle' href='#'>_</a>")
         .click(function() {
           content.slideToggle();
@@ -127,15 +126,24 @@ var UI = (function() {
           backgroundImage: backgroundImage
         })
       ;
-      
+
       handle.append(close).append(toggle);
-      
-      window.addChild = function(element) {
-        content.append(element);
-        return this;
-      }
-      
-      return window;
+
+      return $.extend(window, {
+        addChild: function(element) {
+          content.append(element);
+          return this;
+        },
+
+        title: function(newTitle) {
+          if(newTitle === undefined) {
+            return title.text();
+          } else {
+            title.text(newTitle);
+            return window;
+          }
+        }
+      });
     })
   }
 })();

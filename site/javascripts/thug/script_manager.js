@@ -14,8 +14,11 @@ function ScriptManager(Scripts) {
     var title = script.title;
 
     var scriptItem = $("<li />")
-      .append($("<span class='title'>" + title + " (ID: " + id + ")</span>"))
-      .attr("title", script.code)
+      .append(
+        UI.Span(title + " (ID: " + id + ")", {
+          class: "title"
+        })
+      ).attr("title", script.code)
     ;
 
     scriptItem.dblclick(function(event) {
@@ -28,7 +31,7 @@ function ScriptManager(Scripts) {
       Scripts.update(id, {active: activate ? 1 : 0});
     }));
 
-    scriptItem.append($("<span class='remove' />").text("X").attr("title", "Delete " + title).click(function() {
+    scriptItem.append(UI.Span("X", {class: "remove"}).attr("title", "Delete " + title).click(function() {
       UI.Confirm("Really delete " + title + "?", function() {
         deleteScript(id);
       });
@@ -53,7 +56,7 @@ function ScriptManager(Scripts) {
     if(editWindows[id]) {
       editWindow = editWindows[id];
     } else {
-      editWindow = editWindows[id] = UI.Window("Edit " + title);
+      editWindow = editWindows[id] = UI.Window("Edit: " + title);
 
       var titleField = $("<input type='text' />");
       titleField.val(title);
@@ -73,6 +76,8 @@ function ScriptManager(Scripts) {
       var saveButton = UI.Button("Save", function() {
         var code = codeArea.val();
         var title = titleField.val();
+
+        editWindow.title("Edit: " + title);
         Scripts.update(id, {title: title, code: code});
         itemWithId(id)
           .attr("title", code)
