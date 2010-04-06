@@ -4,7 +4,7 @@
 var Scorpio = function() {
   var logging = false;
   var db;
-  
+
   get("logging", function(val) {
     logging = (val == "1");
   });
@@ -14,13 +14,14 @@ var Scorpio = function() {
     db.execute('CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY, code TEXT)');
     db.execute('CREATE TABLE IF NOT EXISTS scripts ('+
       'id INTEGER PRIMARY KEY, '+
-      'title VARCHAR(255) NOT NULL, '+
-      'code TEXT NOT NULL, '+
+      'title VARCHAR(255), '+
+      'code TEXT, '+
       'active BOOLEAN NOT NULL DEFAULT 0, '+
       'position INTEGER NOT NULL DEFAULT 0'+
     ')');
 
     // Legacy, assumes no ill effects if column already there
+    db.execute('ALTER TABLE scripts ADD COLUMN title VARCHAR(255)');
     db.execute('ALTER TABLE scripts ADD COLUMN position INTEGER NOT NULL DEFAULT 0');
   }
   
@@ -65,12 +66,6 @@ var Scorpio = function() {
   function TableInterface(table, options) {
     options = options || {};
     var primaryKey = options.primaryKey || 'id';
-    var errorHandler = function(transaction, result) {
-      if(logging) {
-        console.log(transaction);
-        console.log(result);
-      }
-    }
 
     function sqlRunner(query, options, callback) {
       var conditions = options.conditions;
@@ -86,7 +81,7 @@ var Scorpio = function() {
         query += " ORDER BY " + order + " ";
       }
 
-      db.execute(query, params, callback, errorHandler);
+      db.execute(query, params, callback);
     }
   
     return {
@@ -118,8 +113,7 @@ var Scorpio = function() {
           ' (' + fields.join(', ') + ') ' +
           'VALUES(' + placeholders.join(', ') + ')',
           values,
-          callback,
-          errorHandler
+          callback
         );
       },
       
@@ -137,8 +131,7 @@ var Scorpio = function() {
           ' WHERE ' + primaryKey + ' = ?', [id],
           function(transaction, result) {
             callback(result.rows.item(0));
-          },
-          errorHandler
+          }
         );
       },
       
@@ -167,6 +160,13 @@ var Scorpio = function() {
     init: function() {
       //db = google.gears.factory.create('beta.database', '1.0');
       //db.open('scorpio');
+
+      var defaultErrorHandler = function(transaction, result) {
+        if(logging) {
+          console.log(transaction);
+          console.log(result);
+        }
+      }
       
       db = openDatabase("greasy_thug", "0.0", "Greasy Thug Database",  250 * 1024);
       db.execute = function(query, params, success, error) {
@@ -176,7 +176,7 @@ var Scorpio = function() {
         }
         
         this.transaction(function(transaction) {
-          transaction.executeSql(query, params, success, error);
+          transaction.executeSql(query, params, success, error || defaultErrorHandler);
         });
       }
       
