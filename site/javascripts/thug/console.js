@@ -16,7 +16,7 @@ var IJC = function() {
   // Private Variables
   var callbacks = {keydown: [], command: [processSuccess]};
 
-  var window = UI.Window(TITLE, {
+  var uiWindow = UI.Window(TITLE, {
     dragStop: function() {
       Scorpio.storeConfig({
         left: $( this ).css('left'),
@@ -67,14 +67,14 @@ var IJC = function() {
     return false;
   });
 
-  window
+  uiWindow
     .addChild(output)
     .addChild(form)
   ;
 
   var self = {
     attach: function(left, top) {
-      $("body").append( window
+      $("body").append( uiWindow
         .css({
           'top': top, 
           'left': left
@@ -82,7 +82,7 @@ var IJC = function() {
       );
     }, 
     
-    element: window,
+    element: uiWindow,
 
     input: input,
 
