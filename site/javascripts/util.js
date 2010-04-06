@@ -34,3 +34,75 @@ function proxy(data, callback) {
     callback(response);
   });
 }
+
+function BackgrondDBTableInterface(table) {
+  function callBackgroundPageDB(method, id, data, callback) {
+    var requestData = {
+      action: "db",
+      data: data,
+      id: id,
+      method: method,
+      table: table
+    };
+
+    if(logging) {
+      console.log("BACKGROUND TABLE INTERFACE " + table + ": is requesting");
+      console.log(requestData);
+    }
+
+    chrome.extension.sendRequest(requestData, function(response) {
+      if(logging) {
+        console.log("BACKGROUND TABLE INTERFACE " + table + ": received");
+        console.log(response);
+      }
+
+      callback(response);
+    });
+  }
+
+  /**
+   * Handles parssing of optional arguments that may appear before callback.
+   * EX:
+   *   all(options, callback)
+   *   all(callback)
+   */
+  function optionPasser(method) {
+    return function(arg1, arg2) {
+      if(arg2 === undefined) {
+        return method({}, arg1);
+      } else {
+        return method(arg1, arg2);
+      }
+    }
+  }
+
+  return {
+    all: optionPasser(function(options, callback) {
+      callBackgroundPageDB("all", null, options, callback);
+    }),
+
+    count: optionPasser(function(options, callback) {
+      callBackgroundPageDB("count", null, options, callback);
+    }),
+
+    create: function(object, callback) {
+      callBackgroundPageDB("create", null, object, callback);
+    },
+
+    destroy: function(id) {
+      callBackgroundPageDB("destroy", id, null, function(){});
+    },
+
+    destroyAll: function() {
+      callBackgroundPageDB("destroyAll", null, null, function(){});
+    },
+
+    find: function(id, callback) {
+      callBackgroundPageDB("find", id, null, callback);
+    },
+
+    update: function(id, object) {
+      callBackgroundPageDB("update", id, object, function(){});
+    }
+  }
+}

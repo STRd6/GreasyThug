@@ -3,6 +3,12 @@ localStorage["autoshow"] = 0;
 localStorage["autorun"] = 1;
 localStorage["logging"] = 1;
 
+function get(key, callback) {
+  callback(localStorage[key]);
+}
+
+Scorpio.init();
+
 chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
     var source = sender.tab ? sender.tab.url : "extension";
@@ -18,6 +24,16 @@ chrome.extension.onRequest.addListener(
       $.getJSON(request.data.url, function(data) {
         sendResponse(data);
       });
+    } else if (request.action == "db") {
+      if (request.method == "update" || request.method == "destroy") {
+        Scorpio[request.table][request.method](request.id, request.data, function(data) {
+          sendResponse(data);
+        });
+      } else {
+        Scorpio[request.table][request.method](request.data, function(data) {
+          sendResponse(data);
+        });
+      }
     }
   }
 );

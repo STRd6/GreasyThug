@@ -1,3 +1,5 @@
+var BackgroundScripts = BackgrondDBTableInterface("scripts");
+
 Scorpio.init();
 commandHistory = new CommandHistory(Scorpio);
 
