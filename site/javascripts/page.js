@@ -3,7 +3,9 @@ var BackgroundScripts = BackgrondDBTableInterface("scripts");
 Scorpio.init();
 commandHistory = new CommandHistory(Scorpio);
 
-var scriptManager = ScriptManager(Scorpio.scripts);
+var scriptManager = ScriptManager("Local Scripts", Scorpio.scripts);
+var globalScriptManager = ScriptManager("Global Scripts", BackgroundScripts);
+
 var interactiveConsole = new IJC();
 
 interactiveConsole.element.hide();
@@ -16,7 +18,10 @@ get("logging", function(val) {
 
 get("autorun", function(autorun) {
   if(autorun != 0) {
-    executeActiveScripts();
+    // Execute background scripts then page scripts
+    executeActiveScripts(BackgroundScripts, function() {
+      executeActiveScripts(Scorpio.scripts);
+    });
   }
 });
 
@@ -64,8 +69,8 @@ Scorpio.loadConfig(function(config) {
   interactiveConsole.attach(config.left || 0, config.top || 0);
 });
 
-function executeActiveScripts() {
-  Scorpio.scripts.all({order: "position", conditions: "active = 1"}, function(scripts) {
+function executeActiveScripts(Scripts, callback) {
+  Scripts.all({order: "position", conditions: "active = 1"}, function(scripts) {
     $.each(scripts, function(index, script) {
       var title = script.title;
       var code = script.code;
@@ -80,6 +85,10 @@ function executeActiveScripts() {
         console.log(e);
       }
     });
+
+    if(callback) {
+      callback();
+    }
   });
 }
 

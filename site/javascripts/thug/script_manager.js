@@ -1,7 +1,7 @@
-function ScriptManager(Scripts) {
+function ScriptManager(title, Scripts) {
   var scriptList = UI.List(updateScriptPositions);
 
-  var self = UI.Window("Scripts").hide();
+  var self = UI.Window(title).hide();
   self.addChild(scriptList);
   $("body").append(self);
 
