@@ -18,3 +18,19 @@ function get(key, callback) {
     callback(response.value);
   });
 }
+
+function proxy(data, callback) {
+  if(logging) {
+    console.log("PROXY SENDING:");
+    console.log(data);
+  }
+
+  chrome.extension.sendRequest({action: "proxy", data: data}, function(response) {
+    if(logging) {
+      console.log("PROXY RECEIVING:");
+      console.log(response);
+    }
+
+    callback(response);
+  });
+}
