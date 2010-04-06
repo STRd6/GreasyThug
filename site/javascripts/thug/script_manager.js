@@ -3,6 +3,7 @@ function ScriptManager(title, Scripts) {
 
   var self = UI.Window(title).hide();
   self.addChild(scriptList);
+  self.addChild($("<a href='#'>+ Add New Script</a>").click(function(){newScript(); return false;}));
   $("body").append(self);
 
   loadLocalScripts();
@@ -17,9 +18,8 @@ function ScriptManager(title, Scripts) {
       .append(
         UI.Span(title + " (ID: " + id + ")", {
           class: "title",
-          title: script.code
         })
-      )
+      ).attr("title", script.code)
     ;
 
     scriptItem.dblclick(function(event) {
@@ -59,41 +59,7 @@ function ScriptManager(title, Scripts) {
     } else {
       editWindow = editWindows[id] = UI.Window("Edit: " + title);
 
-      var titleField = $("<input type='text' />");
-      titleField.val(title);
-
-      var codeArea = $("<textarea />");
-      codeArea.val(script.code).css("height", 142);
-
-      var runButton = UI.Button("Run", function() {
-        var code = codeArea.val();
-        try {
-          eval(code);
-        } catch(e) {
-          alert(e.message);
-        }
-      });
-
-      var saveButton = UI.Button("Save", function() {
-        var code = codeArea.val();
-        var title = titleField.val();
-
-        editWindow.title("Edit: " + title);
-        Scripts.update(id, {title: title, code: code});
-        itemWithId(id)
-          .attr("title", code)
-          .find(".title")
-            .text(title + " (ID: " + id + ")")
-        ;
-      });
-
-      editWindow
-        .addChild(titleField)
-        .addChild(codeArea)
-        .addChild(runButton)
-        .addChild(saveButton)
-        .appendTo("body")
-      ;
+      prepareEditorWindow(script, editWindow);
     }
 
     editWindow.show();
@@ -120,6 +86,56 @@ function ScriptManager(title, Scripts) {
 
       updateScriptPositions();
     });
+  }
+
+  function newScript() {
+    var newScriptWindow = UI.Window("New Script");
+
+    prepareEditorWindow({}, newScriptWindow);
+  }
+
+  function prepareEditorWindow(script, editorWindow) {
+    var titleField = $("<input type='text' />");
+    titleField.val(script.title || "Untitled");
+
+    var codeArea = $("<textarea />");
+    codeArea.val(script.code || "").css("height", 142);
+
+    var runButton = UI.Button("Run", function() {
+      var code = codeArea.val();
+      try {
+        eval(code);
+      } catch(e) {
+        alert(e.message);
+      }
+    });
+
+    var saveButton = UI.Button("Save", function() {
+      var title = script.title = titleField.val();
+      var code = script.code = codeArea.val();
+
+      editorWindow.title("Edit: " + title);
+      if(script.id) {
+        Scripts.update(script.id, {title: title, code: code});
+
+        itemWithId(script.id)
+          .attr("title", code)
+          .find(".title")
+            .text(title + " (ID: " + script.id + ")")
+        ;
+      } else {
+        saveScript(title, code, true);
+        editorWindow.hide();
+      }
+    });
+
+    editorWindow
+      .addChild(titleField)
+      .addChild(codeArea)
+      .addChild(runButton)
+      .addChild(saveButton)
+      .appendTo("body")
+    ;
   }
 
   function saveScript(title, code, active) {
