@@ -8,6 +8,19 @@ function get(key, callback) {
   callback(localStorage[key]);
 }
 
+function publish(script, callback) {
+  var dataObj = {};
+  var whitelist = ["code", "domain", "title"];
+
+  $.each(script, function(key, value) {
+    if(whitelist.indexOf(key) >= 0) {
+      dataObj["script["+key+"]"] = value;
+    }
+  });
+
+  $.post("http://" + remoteScriptDomain + "/scripts", dataObj, callback);
+}
+
 Scorpio.init();
 
 chrome.extension.onRequest.addListener(
@@ -46,16 +59,3 @@ chrome.extension.onRequest.addListener(
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.sendRequest(tab.id, {action: "toggle"});
 });
-
-function publish(script, callback) {
-  var dataObj = {};
-  var whitelist = ["code", "domain", "title"];
-
-  $.each(script, function(key, value) {
-    if(whitelist.indexOf(key) >= 0) {
-      dataObj["script["+key+"]"] = value;
-    }
-  });
-
-  $.post("http://" + remoteScriptDomain + "/scripts", dataObj, callback);
-}

@@ -1,13 +1,4 @@
 function ScriptManager(title, Scripts) {
-  var scriptList = UI.List(updateScriptPositions);
-
-  var self = UI.Window(title).hide();
-  self.addChild(scriptList);
-  self.addChild($("<a href='#'>+ Add New Script</a>").click(function(){newScript(); return false;}));
-  $("body").append(self);
-
-  loadLocalScripts();
-
   var editWindows = {};
 
   function addScriptItem(script) {
@@ -171,6 +162,15 @@ function ScriptManager(title, Scripts) {
       Scripts.update($(this).attr("scriptId"), {position: position});
     });
   }
+
+  var scriptList = UI.List(updateScriptPositions);
+
+  var self = UI.Window(title).hide();
+  self.addChild(scriptList);
+  self.addChild($("<a href='#'>+ Add New Script</a>").click(function(){newScript(); return false;}));
+  $("body").append(self);
+
+  loadLocalScripts();
 
   $.extend(self, {
     deleteScript: deleteScript,

@@ -1,3 +1,26 @@
+function executeActiveScripts(Scripts, callback) {
+  Scripts.all({order: "position", conditions: "active = 1"}, function(scripts) {
+    $.each(scripts, function(index, script) {
+      var title = script.title;
+      var code = script.code;
+      var id = script.id;
+      var token = title + "(ID:" + id + " )";
+
+      try {
+        console.log("[Executing " + token + "]");
+        eval(code);
+      } catch(e) {
+        console.log("Error Running: " + token);
+        console.log(e);
+      }
+    });
+
+    if(callback) {
+      callback();
+    }
+  });
+}
+
 var BackgroundScripts = BackgrondDBTableInterface("scripts");
 
 Scorpio.init();
@@ -59,7 +82,8 @@ var saveButton = UI.Button("Save Previous", {
     "class": "save",
     title: "Persist the last script executed to be run on subsequent page loads."
   }, function() {
-    savePreviouslyExecutedAs(scriptTitleInput.val(), 1);
+    scriptManager.saveScript(scriptTitleInput.val(), commandHistory.last());
+    scriptTitleInput.val('');
     return false;
   }
 );
@@ -100,34 +124,6 @@ Scorpio.loadConfig(function(config) {
     'left': config.left || 0
   });
 });
-
-function executeActiveScripts(Scripts, callback) {
-  Scripts.all({order: "position", conditions: "active = 1"}, function(scripts) {
-    $.each(scripts, function(index, script) {
-      var title = script.title;
-      var code = script.code;
-      var id = script.id;
-      var token = title + "(ID:" + id + " )";
-
-      try {
-        console.log("[Executing " + token + "]");
-        eval(code);
-      } catch(e) {
-        console.log("Error Running: " + token);
-        console.log(e);
-      }
-    });
-
-    if(callback) {
-      callback();
-    }
-  });
-}
-
-function savePreviouslyExecutedAs(title, active) {
-  scriptManager.saveScript(title, commandHistory.last(), active);
-  scriptTitleInput.val('');
-}
 
 chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
