@@ -5,10 +5,22 @@ commandHistory = new CommandHistory(Scorpio);
 
 var scriptManager = ScriptManager("Local Scripts", Scorpio.scripts);
 var globalScriptManager = ScriptManager("Global Scripts", BackgroundScripts);
+var remoteScriptsWindow = RemoteScripts("http://greasythug.net/");
+
+var controlPanel = UI.Window("Greasy Thug Control Panel", {
+  dragStop: function() {
+    Scorpio.storeConfig({
+      left: $( this ).css('left'),
+      top: $( this ).css('top')
+    });
+  }
+});
+
+controlPanel.hide().appendTo($("body"));
 
 var interactiveConsole = new IJC();
-
 interactiveConsole.element.hide();
+interactiveConsole.attach(0, 0);
 
 var logging = false;
 
@@ -27,7 +39,7 @@ get("autorun", function(autorun) {
 
 get("autoshow", function(autoshow) {
   if(autoshow != 0) {
-    interactiveConsole.element.show();
+    controlPanel.show();
   }
 });
 
@@ -52,8 +64,20 @@ var saveButton = UI.Button("Save Previous", {
   }
 );
 
-var showScriptsButton = UI.Button("Show Scripts", {class: "showScripts"}, function() {
+var showConsoleButton = UI.Button("Console", function() {
+  interactiveConsole.element.toggle();
+  return false;
+});
+
+var showScriptsButton = UI.Button("Local Scripts", {class: "showScripts"}, function() {
   scriptManager.toggle();
+  return false;
+});
+
+var showRemoteScriptsButton = UI.Button("Scripts from greasythug.net", function() {
+  if(remoteScriptsWindow) {
+    remoteScriptsWindow.toggle();
+  }
   return false;
 });
 
@@ -62,11 +86,19 @@ interactiveConsole.element.find("form")
   .append(nextButton)
   .append(saveButton)
   .append(scriptTitleInput)
-  .append(showScriptsButton)
+;
+
+controlPanel
+  .addChild(showConsoleButton)
+  .addChild(showScriptsButton)
+  .addChild(showRemoteScriptsButton)
 ;
 
 Scorpio.loadConfig(function(config) {
-  interactiveConsole.attach(config.left || 0, config.top || 0);
+  controlPanel.css({
+    'top': config.top || 0,
+    'left': config.left || 0
+  });
 });
 
 function executeActiveScripts(Scripts, callback) {
@@ -100,16 +132,13 @@ function savePreviouslyExecutedAs(title, active) {
 chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
     if(request.action == "toggle") {
-      interactiveConsole.element.toggle();
+      controlPanel.toggle();
     }
   }
 );
 
-var remoteScriptsWindow;
 get("display_remote_scripts", function(val) {
-  console.log("DISPLAY REMOTE?");
-  console.log(val);
   if(val != 0) {
-    remoteScriptsWindow = RemoteScripts("http://greasythug.net/");
+    remoteScriptsWindow.show();
   }
 });

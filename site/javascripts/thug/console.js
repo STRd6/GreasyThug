@@ -16,14 +16,7 @@ var IJC = function() {
   // Private Variables
   var callbacks = {keydown: [], command: [processSuccess]};
 
-  var uiWindow = UI.Window(TITLE, {
-    dragStop: function() {
-      Scorpio.storeConfig({
-        left: $( this ).css('left'),
-        top: $( this ).css('top')
-      });
-    }}
-  );
+  var uiWindow = UI.Window(TITLE);
   var output = $("<pre class='outputBuffer'></pre>");
 
   var puts = function(text) {
