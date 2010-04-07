@@ -98,6 +98,17 @@ function ScriptManager(title, Scripts) {
     var titleField = $("<input type='text' />");
     titleField.val(script.title || "Untitled");
 
+    var publishButton = UI.Button("Publish", {title: "Publish to " + remoteScriptDomain}, function() {
+      var $this = $(this);
+
+      $this.attr("disabled", true);
+      $this.text("Publishing");
+
+      publish(script, function() {
+        $this.text("Published");
+      });
+    });
+
     var codeArea = $("<textarea />");
     codeArea.val(script.code || "").css("height", 142);
 
@@ -131,6 +142,7 @@ function ScriptManager(title, Scripts) {
 
     editorWindow
       .addChild(titleField)
+      .addChild(publishButton)
       .addChild(codeArea)
       .addChild(runButton)
       .addChild(saveButton)

@@ -46,6 +46,30 @@ function getCurrentDomain() {
   return currentUrl.substring(0, currentUrl.indexOf('/'));
 }
 
+function publish(script, callback) {
+  script.domain = getCurrentDomain();
+
+  var requestData = {
+    action: "publish",
+    script: script
+  }
+
+  if(logging) {
+    console.log("PUBLISH SENDING:");
+    console.log(requestData);
+  }
+
+  chrome.extension.sendRequest(requestData, function(data, status) {
+    if(logging) {
+      console.log("PUBLISH RECEIVED:");
+      console.log(status);
+      console.log(data);
+    }
+
+    callback(data, status);
+  });
+}
+
 function BackgrondDBTableInterface(table) {
   function callBackgroundPageDB(method, id, data, callback) {
     var requestData = {
