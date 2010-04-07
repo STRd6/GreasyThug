@@ -23,13 +23,13 @@ var Scorpio = function() {
     // Legacy, assumes no ill effects if column already there
     db.execute('ALTER TABLE scripts ADD COLUMN title VARCHAR(255)');
     db.execute('ALTER TABLE scripts ADD COLUMN position INTEGER NOT NULL DEFAULT 0');
-  }
+  };
   
   var dropTables = function(db) {
     db.execute('DROP TABLE IF EXISTS config');
     db.execute('DROP TABLE IF EXISTS history');
     db.execute('DROP TABLE IF EXISTS scripts');
-  }
+  };
   
   /**
    * Handles parssing of optional arguments that may appear before callback.
@@ -44,7 +44,7 @@ var Scorpio = function() {
       } else {
         return method(arg1, arg2);
       }
-    }
+    };
   }
 
   /**
@@ -153,8 +153,8 @@ var Scorpio = function() {
           values
         );
       }
-    }
-  };
+    };
+  }
 
   var self = {
     init: function() {
@@ -166,7 +166,7 @@ var Scorpio = function() {
           console.log(transaction);
           console.log(result);
         }
-      }
+      };
       
       db = openDatabase("greasy_thug", "0.0", "Greasy Thug Database",  250 * 1024);
       db.execute = function(query, params, success, error) {
@@ -178,7 +178,7 @@ var Scorpio = function() {
         this.transaction(function(transaction) {
           transaction.executeSql(query, params, success, error || defaultErrorHandler);
         });
-      }
+      };
       
       createTables(db);
       

@@ -17,7 +17,7 @@ function ScriptManager(title, Scripts) {
     var scriptItem = $("<li />")
       .append(
         UI.Span(title + " (ID: " + id + ")", {
-          class: "title",
+          "class": "title"
         })
       ).attr("title", script.code)
     ;
@@ -32,7 +32,7 @@ function ScriptManager(title, Scripts) {
       Scripts.update(id, {active: activate ? 1 : 0});
     }));
 
-    scriptItem.append(UI.Span("X", {class: "remove", title: "Delete " + title}).click(function() {
+    scriptItem.append(UI.Span("X", {"class": "remove", title: "Delete " + title}).click(function() {
       UI.Confirm("Really delete " + title + "?", function() {
         deleteScript(id);
       });
@@ -154,7 +154,7 @@ function ScriptManager(title, Scripts) {
     Scripts.create({
       title: title,
       code: code,
-      active: active != false ? 1 : 0
+      active: active !== false ? 1 : 0
     }, function(transaction, result) {
       var id = result.insertId;
 

@@ -21,7 +21,7 @@ function RemoteScripts(remoteServer) {
           .attr("title", script.code)
           .append(
             UI.Span(script.title, {
-              class: "title",
+              "class": "title"
             })
           )
           .append(UI.Button("Run", {title: "Run " + script.title}, function() {

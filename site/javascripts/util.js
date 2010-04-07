@@ -52,7 +52,7 @@ function publish(script, callback) {
   var requestData = {
     action: "publish",
     script: script
-  }
+  };
 
   if(logging) {
     console.log("PUBLISH SENDING:");
@@ -108,7 +108,7 @@ function BackgrondDBTableInterface(table) {
       } else {
         return method(arg1, arg2);
       }
-    }
+    };
   }
 
   return {
@@ -139,5 +139,5 @@ function BackgrondDBTableInterface(table) {
     update: function(id, object) {
       callBackgroundPageDB("update", id, object, function(){});
     }
-  }
+  };
 }

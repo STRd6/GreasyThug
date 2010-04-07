@@ -28,7 +28,7 @@ var IJC = function() {
 
   var input = $("<textarea />")
     .keydown(function(event) {
-      $.each(callbacks['keydown'], function(index, callback) {
+      $.each(callbacks.keydown, function(index, callback) {
         callback(event, self);
       });
     });
@@ -48,7 +48,7 @@ var IJC = function() {
       result = eval(commandBuffer + ';');
       
       // Run Callbacks
-      $.each(callbacks['command'], function(index, callback) {
+      $.each(callbacks.command, function(index, callback) {
         callback(commandBuffer, result, self);
       });
     } catch(e) {
@@ -82,7 +82,7 @@ var IJC = function() {
     puts: puts,
     
     registerCallback: function(event, callback) {
-      if(callbacks[event] != null) {
+      if(callbacks[event]) {
         callbacks[event].push(callback);
       }
     }

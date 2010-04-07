@@ -1,5 +1,5 @@
 var UI = (function() {
-  var imgURL = chrome.extension.getURL("") + "stylesheets/dark-hive/images/"
+  var imgURL = chrome.extension.getURL("") + "stylesheets/dark-hive/images/";
   var backgroundImage = "url(" + imgURL + "ui-icons_ffffff_256x240.png)";
 
   function ensureOptions(method) {
@@ -9,7 +9,7 @@ var UI = (function() {
       } else {
         return method(arg1, arg2);
       }
-    }
+    };
   }
 
   function ensureOptionsAndCallback(method) {
@@ -19,12 +19,12 @@ var UI = (function() {
       } else {
         return method(arg1, arg2, arg3);
       }
-    }
+    };
   }
 
   function applyOptions(elem, options) {
     elem
-      .addClass(options.class)
+      .addClass(options["class"])
     ;
 
     if(options.title !== undefined) {
@@ -47,7 +47,7 @@ var UI = (function() {
     Checkbox: function UI_checkbox(checked, toggle) {
       var checkbox = $("<input type='checkbox' />");
 
-      checkbox.attr("checked", checked != 0);
+      checkbox.attr("checked", checked != "0");
 
       checkbox.change(function() {
         toggle($(this).attr("checked"));
@@ -90,10 +90,10 @@ var UI = (function() {
       return applyOptions(span, options);
     }),
 
-    Window: ensureOptions(function UI_window(title, options) {
+    Window: ensureOptions(function UI_window(titleText, options) {
       var dragStop = options.dragStop || function(){};
 
-      var title = UI.Span(title, {class: "title"});
+      var title = UI.Span(titleText, {"class": "title"});
       var handle = $("<div class='handle' />").append(title);
 
       var content = $("<div class='content' />");
@@ -149,5 +149,5 @@ var UI = (function() {
         }
       });
     })
-  }
+  };
 })();

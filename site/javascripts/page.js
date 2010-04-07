@@ -29,7 +29,7 @@ get("logging", function(val) {
 });
 
 get("autorun", function(autorun) {
-  if(autorun != 0) {
+  if(autorun != "0") {
     // Execute background scripts then page scripts
     executeActiveScripts(BackgroundScripts, function() {
       executeActiveScripts(Scorpio.scripts);
@@ -38,25 +38,25 @@ get("autorun", function(autorun) {
 });
 
 get("autoshow", function(autoshow) {
-  if(autoshow != 0) {
+  if(autoshow != "0") {
     controlPanel.show();
   }
 });
 
-interactiveConsole.registerCallback('command', commandHistory.add)
+interactiveConsole.registerCallback('command', commandHistory.add);
 //interactiveConsole.registerCallback('keydown', commandHistory.arrowKeyEvent);
 
-var prevButton = UI.Button("< Prev", {class: "prev"}, function() {
+var prevButton = UI.Button("< Prev", {"class": "prev"}, function() {
   commandHistory.changeConsoleCommand(-1, interactiveConsole); 
   return false;
 });
-var nextButton = UI.Button("Next >", {class: "next"}, function() {
+var nextButton = UI.Button("Next >", {"class": "next"}, function() {
   commandHistory.changeConsoleCommand(1, interactiveConsole);
   return false;
 });
 var scriptTitleInput = $("<input class='titleEntry' />").attr('title', "Name to save script as");
 var saveButton = UI.Button("Save Previous", {
-    class: "save",
+    "class": "save",
     title: "Persist the last script executed to be run on subsequent page loads."
   }, function() {
     savePreviouslyExecutedAs(scriptTitleInput.val(), 1);
@@ -69,7 +69,7 @@ var showConsoleButton = UI.Button("Console", function() {
   return false;
 });
 
-var showScriptsButton = UI.Button("Local Scripts", {class: "showScripts"}, function() {
+var showScriptsButton = UI.Button("Local Scripts", {"class": "showScripts"}, function() {
   scriptManager.toggle();
   return false;
 });
@@ -138,7 +138,7 @@ chrome.extension.onRequest.addListener(
 );
 
 get("display_remote_scripts", function(val) {
-  if(val != 0) {
+  if(val != "0") {
     remoteScriptsWindow.show();
   }
 });

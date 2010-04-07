@@ -1,8 +1,8 @@
 // Default Configuration
-localStorage["autoshow"] = 0;
-localStorage["autorun"] = 1;
-localStorage["logging"] = 1;
-localStorage["display_remote_scripts"] = 0;
+localStorage.autoshow = 0;
+localStorage.autorun = 1;
+localStorage.logging = 1;
+localStorage.display_remote_scripts = 0;
 
 function get(key, callback) {
   callback(localStorage[key]);
