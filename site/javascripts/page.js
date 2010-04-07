@@ -104,3 +104,12 @@ chrome.extension.onRequest.addListener(
     }
   }
 );
+
+var remoteScriptsWindow;
+get("display_remote_scripts", function(val) {
+  console.log("DISPLAY REMOTE?");
+  console.log(val);
+  if(val != 0) {
+    remoteScriptsWindow = RemoteScripts("http://greasythug.net/");
+  }
+});

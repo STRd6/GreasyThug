@@ -35,6 +35,17 @@ function proxy(data, callback) {
   });
 }
 
+/**
+ * Simple method to return the current domain. The domain
+ * is how the HTML5 local storage is scoped, so it comes
+ * in handy.
+ */
+function getCurrentDomain() {
+  var href = window.location.href;
+  var currentUrl = href.substring(href.indexOf('://') + 3);
+  return currentUrl.substring(0, currentUrl.indexOf('/'));
+}
+
 function BackgrondDBTableInterface(table) {
   function callBackgroundPageDB(method, id, data, callback) {
     var requestData = {
