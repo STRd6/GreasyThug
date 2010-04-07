@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'jslint/tasks'
+JSLint.config_path = "config/jslint.yml"
+
 task :default => [:build]
 
 task :build do
