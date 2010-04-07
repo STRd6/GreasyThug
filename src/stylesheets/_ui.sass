@@ -47,6 +47,9 @@
         &:nth-child(even)
           background-color= !alt_gray
 
+        button
+          float: right
+
   .icon
     background-color: transparent
     background-repeat: no-repeat
@@ -72,6 +75,19 @@
     +button-hover-colors
     +button-active-colors
     +button-fonts
+
+    vertical-align: middle
+
+    &[disabled]
+      background-color: whiteSmoke
+      border-color: #DEDEDE
+      color: #AAA
+      cursor: default
+
+      &:hover
+        background-color: whiteSmoke
+        border-color: #DEDEDE
+        color: #AAA
 
   textarea
     display: block
