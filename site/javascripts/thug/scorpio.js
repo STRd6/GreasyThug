@@ -1,7 +1,7 @@
 /**
  *  Scorpio handles all the database connectivity.
  */
-var Scorpio = function() {
+var Scorpio = (function() {
   var logging = false;
   var db;
 
@@ -57,7 +57,7 @@ var Scorpio = function() {
     
     while(i < length) {
       results.push(rows.item(i));
-      i++;
+      i += 1;
     }
     
     return results;
@@ -211,7 +211,7 @@ var Scorpio = function() {
         while(i < rowCount) {
           item = rs.item(i);
           config[item.key] = item.value;
-          i++;
+          i += 1;
         }
         
         callback(config);
@@ -219,10 +219,9 @@ var Scorpio = function() {
     },
     
     storeConfig: function(config) {
-      for(var key in config) {
-        var value = config[key];
+      $.each(config, function(key, value) {
         db.execute('INSERT OR REPLACE INTO config (key, value) VALUES(?, ?)', [key, value]);
-      }
+      });
     },
     
     loadHistory: function(callback) {
@@ -247,4 +246,4 @@ var Scorpio = function() {
   };
   
   return self;
-}();
+}());

@@ -23,11 +23,11 @@ adsafe:   false     # true if ADsafe rules should be enforced. See http://www.AD
 bitwise:  true      # true if bitwise operators should not be allowed
 newcap:   false     # true if Initial Caps must be used with constructor functions
 eqeqeq:   false     # true if === should be required (for ALL equality comparisons)
-immed:    false     # true if immediate function invocations must be wrapped in parens
+immed:    true      # true if immediate function invocations must be wrapped in parens
 nomen:    true      # true if initial or trailing underscore in identifiers should be forbidden
 onevar:   false     # true if only one var statement per function should be allowed
-plusplus: false     # true if ++ and -- should not be allowed
-regexp:   false     # true if . and [^...] should not be allowed in RegExp literals
+plusplus: true      # true if ++ and -- should not be allowed
+regexp:   true      # true if . and [^...] should not be allowed in RegExp literals
 safe:     false     # true if the safe subset rules are enforced (used by ADsafe)
 strict:   false     # true if the ES5 "use strict"; pragma is required
 undef:    false     # true if variables must be declared before used
@@ -36,10 +36,10 @@ white:    false     # true if strict whitespace rules apply (see also 'indent' o
 # "allow" type options (false means potentially more warnings)
 
 cap:      false     # true if upper case HTML should be allowed
-css:      true      # true if CSS workarounds should be tolerated
+css:      false     # true if CSS workarounds should be tolerated
 debug:    false     # true if debugger statements should be allowed (set to false before going into production)
 evil:     true      # true if eval should be allowed
-forin:    true      # true if unfiltered 'for in' statements should be allowed
+forin:    false     # true if unfiltered 'for in' statements should be allowed
 fragment: true      # true if HTML fragments should be allowed
 laxbreak: false     # true if statement breaks should not be checked
 on:       false     # true if HTML event handlers (e.g. onclick="...") should be allowed
