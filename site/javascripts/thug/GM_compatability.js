@@ -21,3 +21,7 @@ function GM_xmlhttpRequest(details) {
     }
   });
 }
+
+function GM_log(message) {
+  console.log(message);
+}
