@@ -52,6 +52,42 @@ chrome.extension.onRequest.addListener(
           sendResponse(data);
         });
       }
+    } else if(request.action == "GM_xmlhttpRequest") {
+      var options = request.details;
+      $.ajax({
+        beforeSend: function(XMLHttpRequest) {
+          $.each(options.headers || {}, function(header, value) {
+            XMLHttpRequest.setRequestHeader(header, value);
+          });
+        },
+        data: options.data,
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          sendResponse({
+            error: true,
+            data: {
+              status: XMLHttpRequest.status,
+              statusText: XMLHttpRequest.statusText,
+              readyState: XMLHttpRequest.readyState,
+              responseHeaders: XMLHttpRequest.getAllResponseHeaders(),
+              responseText: XMLHttpRequest.responseText
+            }
+          });
+        },
+        method: options.method,
+        success: function(data, textStatus, XMLHttpRequest) {
+          sendResponse({
+            success: true,
+            data: {
+              status: XMLHttpRequest.status,
+              statusText: XMLHttpRequest.statusText,
+              readyState: XMLHttpRequest.readyState,
+              responseHeaders: XMLHttpRequest.getAllResponseHeaders(),
+              responseText: XMLHttpRequest.responseText
+            }
+          });
+        },
+        url: options.url
+      });
     }
   }
 );
