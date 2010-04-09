@@ -21,6 +21,29 @@ function publish(script, callback) {
   $.post("http://" + remoteScriptDomain + "/scripts", dataObj, callback);
 }
 
+function ajax(settings, sendResponse) {
+  $.extend(settings, {
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      sendResponse({
+        error: true,
+        errorThrow: errorThrown,
+        textStatus: textStatus,
+        XMLHttpRequest: XMLHttpRequest
+      });
+    },
+    success: function(data, textStatus, XMLHttpRequest) {
+      sendResponse({
+        data: data,
+        success: true,
+        textStatus: textStatus,
+        XMLHttpRequest: XMLHttpRequest
+      });
+    }
+  });
+
+  $.ajax(settings);
+}
+
 Scorpio.init();
 
 chrome.extension.onRequest.addListener(
@@ -52,6 +75,8 @@ chrome.extension.onRequest.addListener(
           sendResponse(data);
         });
       }
+    } else if(request.action == "ajax") {
+      ajax(request.settings, sendResponse);
     } else if(request.action == "GM_xmlhttpRequest") {
       var options = request.details;
       $.ajax({

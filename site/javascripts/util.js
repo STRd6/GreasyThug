@@ -35,6 +35,30 @@ function proxy(data, callback) {
   });
 }
 
+function ajax(settings) {
+  if(logging) {
+    console.log("ajax SENDING:");
+    console.log(settings);
+  }
+
+  chrome.extension.sendRequest({action: "ajax", settings: settings}, function(response) {
+    if(logging) {
+      console.log("ajax RECEIVING:");
+      console.log(response);
+    }
+
+    if(response.success) {
+      if(settings.success) {
+        settings.success(response.data, response.textStatus, response.XMLHttpRequest);
+      }
+    } else if(response.error) {
+      if(settings.error) {
+        settings.error(response.XMLHttpRequest, response.textStatus, response.errorThrown);
+      }
+    }
+  });
+}
+
 /**
  * Simple method to return the current domain. The domain
  * is how the HTML5 local storage is scoped, so it comes
