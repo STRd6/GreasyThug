@@ -95,8 +95,6 @@ var UI = (function() {
       function raise() {
         window.css("zIndex", zMax);
         zMax += 1;
-
-        console.log("RAISE: " + zMax);
       }
 
       var dragStop = options.dragStop || function(){};
