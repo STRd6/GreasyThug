@@ -1,6 +1,7 @@
 var UI = (function() {
   var imgURL = chrome.extension.getURL("") + "stylesheets/dark-hive/images/";
   var backgroundImage = "url(" + imgURL + "ui-icons_ffffff_256x240.png)";
+  var zMax = 0;
 
   function ensureOptions(method) {
     return function(arg1, arg2) {
@@ -91,6 +92,13 @@ var UI = (function() {
     }),
 
     Window: ensureOptions(function UI_window(titleText, options) {
+      function raise() {
+        window.css("zIndex", zMax);
+        zMax += 1;
+
+        console.log("RAISE: " + zMax);
+      }
+
       var dragStop = options.dragStop || function(){};
 
       var title = UI.Span(titleText, {"class": "title"});
@@ -110,8 +118,13 @@ var UI = (function() {
           position:"fixed",
           top: 0
         })
+        .mousedown(function() {
+          raise();
+        })
       ;
-      
+
+      raise();
+
       var close = $("<a class='icon close' href='#'>X</a>")
         .click(function() {
           window.hide();
@@ -139,6 +152,12 @@ var UI = (function() {
           return this;
         },
 
+        raise: raise,
+
+        show: intercept(window.show, function() {
+          raise();
+        }),
+
         title: function(newTitle) {
           if(newTitle === undefined) {
             return title.text();
@@ -146,7 +165,11 @@ var UI = (function() {
             title.text(newTitle);
             return window;
           }
-        }
+        },
+
+        toggle: intercept(window.toggle, function() {
+          raise();
+        })
       });
     })
   };

@@ -19,6 +19,13 @@ function get(key, callback) {
   });
 }
 
+function intercept(method, interception) {
+  return function() {
+    interception.apply(this, arguments);
+    return method.apply(this, arguments);
+  };
+}
+
 function proxy(data, callback) {
   if(logging) {
     console.log("PROXY SENDING:");
