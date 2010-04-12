@@ -1,7 +1,7 @@
 function RemoteScripts(remoteServer) {
   var domain = getCurrentDomain();
   var url = remoteServer + "scripts.json?domain=" + domain;
-  
+
   var window = UI.Window("Remote Scripts for " + domain);
 
   proxy({url: url}, function(scripts) {
@@ -17,6 +17,22 @@ function RemoteScripts(remoteServer) {
       $.each(scripts, function() {
         var script = this.script;
 
+        function setInstalled() {
+          installButton.attr("disabled", true);
+          installButton.text("Installed");
+        }
+
+        var installButton = UI.Button("Install", {title: "Install " + script.title}, function() {
+          scriptManager.saveScript(script.title, script.code, true, script.guid);
+          setInstalled();
+        });
+
+        scriptManager.isInstalled(script.guid, function(installed) {
+          if(installed) {
+            setInstalled();
+          }
+        });
+
         var scriptItem = $("<li />")
           .attr("title", script.code)
           .append(
@@ -27,15 +43,9 @@ function RemoteScripts(remoteServer) {
           .append(UI.Button("Run", {title: "Run " + script.title}, function() {
             eval(script.code);
           }))
-          .append(UI.Button("Install", {title: "Install " + script.title}, function() {
-            scriptManager.saveScript(script.title, script.code, true);
-
-            $this = $(this);
-            $this.attr("disabled", true);
-            $this.text("Installed");
-          }))
+          .append(installButton)
         ;
-      
+
         scriptList.append(scriptItem);
       });
     } else {

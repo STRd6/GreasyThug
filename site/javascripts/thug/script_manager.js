@@ -141,11 +141,12 @@ function ScriptManager(title, Scripts) {
     ;
   }
 
-  function saveScript(title, code, active) {
+  function saveScript(title, code, active, guid) {
     Scripts.create({
       title: title,
       code: code,
-      active: active !== false ? 1 : 0
+      active: active !== false ? 1 : 0,
+      guid: guid ? guid : ''
     }, function(transaction, result) {
       var id = result.insertId;
 
@@ -174,6 +175,13 @@ function ScriptManager(title, Scripts) {
 
   $.extend(self, {
     deleteScript: deleteScript,
+
+    isInstalled: function(guid, callback) {
+      Scripts.first({conditions: "guid ='" + guid + "'"}, function(script) {
+        callback(script);
+      });
+    },
+
     saveScript: saveScript
   });
 

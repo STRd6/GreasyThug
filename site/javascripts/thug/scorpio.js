@@ -17,20 +17,22 @@ var Scorpio = (function() {
       'title VARCHAR(255), '+
       'code TEXT, '+
       'active BOOLEAN NOT NULL DEFAULT 0, '+
-      'position INTEGER NOT NULL DEFAULT 0'+
+      'position INTEGER NOT NULL DEFAULT 0, '+
+      'guid VARCHAR(32)'+
     ')');
 
-    // Legacy, assumes no ill effects if column already there
+    // Legacy, assumes no ill effects if columns already there
     db.execute('ALTER TABLE scripts ADD COLUMN title VARCHAR(255)');
     db.execute('ALTER TABLE scripts ADD COLUMN position INTEGER NOT NULL DEFAULT 0');
+    db.execute('ALTER TABLE scripts ADD COLUMN guid VARCHAR(32)');
   };
-  
+
   var dropTables = function(db) {
     db.execute('DROP TABLE IF EXISTS config');
     db.execute('DROP TABLE IF EXISTS history');
     db.execute('DROP TABLE IF EXISTS scripts');
   };
-  
+
   /**
    * Handles parssing of optional arguments that may appear before callback.
    * EX:
@@ -54,24 +56,35 @@ var Scorpio = (function() {
     var results = [];
     var i = 0;
     var length = rows.length;
-    
+
     while(i < length) {
       results.push(rows.item(i));
       i += 1;
     }
-    
+
     return results;
   }
-  
+
   function TableInterface(table, options) {
     options = options || {};
     var primaryKey = options.primaryKey || 'id';
 
-    function sqlRunner(query, options, callback) {
+    function sqlRunner(options, callback) {
       var conditions = options.conditions;
+      var limit = options.limit;
       var order = options.order;
+      var select = options.select;
 
+      var query = '';
       var params = [];
+
+      if(select) {
+        query += select;
+      } else {
+        query += "SELECT * ";
+      }
+
+      query += " FROM " + table;
 
       if(conditions) {
         query += " WHERE " + conditions + " ";
@@ -81,33 +94,39 @@ var Scorpio = (function() {
         query += " ORDER BY " + order + " ";
       }
 
+      if(limit) {
+        query += " LIMIT " + limit + " ";
+      }
+
       db.execute(query, params, callback);
     }
-  
+
     return {
       all: optionPasser(function(options, callback) {
-        sqlRunner('SELECT * FROM ' + table, options, function(transaction, result) {
+        sqlRunner(options, function(transaction, result) {
           callback(rowsToObjects(result.rows));
         });
       }),
-      
+
       count: optionPasser(function(options, callback) {
-        sqlRunner('SELECT COUNT(*) AS count FROM ' + table, options, function(transaction, result) {
+        $.extend(options, {select: "SELECT COUNT(*) AS count"});
+
+        sqlRunner(options, function(transaction, result) {
           callback(result.rows.item(0).count);
         });
       }),
-      
+
       create: function(object, callback) {
         var fields = [];
         var values = [];
         var placeholders = [];
-        
+
         $.each(object, function(key, value) {
           fields.push(key);
           values.push(value);
           placeholders.push('?');
         });
-        
+
         db.execute(
           'INSERT INTO ' + table + 
           ' (' + fields.join(', ') + ') ' +
@@ -116,25 +135,32 @@ var Scorpio = (function() {
           callback
         );
       },
-      
+
       destroy: function(id) {
         db.execute('DELETE FROM ' + table + ' WHERE ' + primaryKey + ' = ?', [id]);
       },
-      
+
       destroyAll: function() {
         db.execute('DELETE FROM ' + table);
       },
-      
+
       find: function(id, callback) {
         var rs = db.execute(
           'SELECT * FROM ' + table + 
           ' WHERE ' + primaryKey + ' = ?', [id],
           function(transaction, result) {
-            callback(result.rows.item(0));
+            callback(rowsToObjects(result.rows)[0]);
           }
         );
       },
-      
+
+      first: optionPasser(function(options, callback) {
+        $.extend(options, {limit: 1});
+        sqlRunner(options, function(transaction, result) {
+          callback(rowsToObjects(result.rows)[0]);
+        });
+      }),
+
       update: function(id, object) {
         var fields = [];
         var values = [];
@@ -143,9 +169,9 @@ var Scorpio = (function() {
           fields.push(key + " = ?");
           values.push(value);
         });
-        
+
         values.push(id);
-        
+
         db.execute(
           'UPDATE ' + table + 
           ' SET ' + fields.join(', ') + 
@@ -167,21 +193,21 @@ var Scorpio = (function() {
           console.log(result);
         }
       };
-      
+
       db = openDatabase("greasy_thug", "0.0", "Greasy Thug Database",  250 * 1024);
       db.execute = function(query, params, success, error) {
         if(logging) {
           console.log(query);
           console.log(params);
         }
-        
+
         this.transaction(function(transaction) {
           transaction.executeSql(query, params, success, error || defaultErrorHandler);
         });
       };
-      
+
       createTables(db);
-      
+
       self.db = db;
     },
     
