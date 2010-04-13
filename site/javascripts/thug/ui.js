@@ -1,3 +1,8 @@
+/*global
+  $, chrome, window,
+  intercept
+*/
+
 var UI = (function() {
   var imgURL = chrome.extension.getURL("") + "stylesheets/dark-hive/images/";
   var backgroundImage = "url(" + imgURL + "ui-icons_ffffff_256x240.png)";

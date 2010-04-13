@@ -1,8 +1,14 @@
+/*global
+  $,
+  UI
+*/
+
 /**
 * This controls the interactive console for testing the Grease
 */
 var IJC = function() {
   var TITLE = "Greasy Thug Console";
+  var input, puts, self;
 
   function processSuccess(command, result, self) {
     // Clear Input
@@ -19,20 +25,19 @@ var IJC = function() {
   var uiWindow = UI.Window(TITLE);
   var output = $("<pre class='outputBuffer'></pre>");
 
-  var puts = function(text) {
+  puts = function(text) {
     output.append(document.createTextNode(text));
     output.append('<br />');
     // Scroll to bottom
     output[0].scrollTop = output[0].scrollHeight;
   };
 
-  var input = $("<textarea />")
-    .keydown(function(event) {
-      $.each(callbacks.keydown, function(index, callback) {
-        callback(event, self);
-      });
+  input = $("<textarea />").keydown(function(event) {
+    $.each(callbacks.keydown, function(index, callback) {
+      callback(event, self);
     });
-    
+  });
+
   var form = $("<form action='#' method='get'></form>")
     .append(input)
     .append($("<input class='execute' type='submit' value='Execute'/>"));
@@ -65,7 +70,7 @@ var IJC = function() {
     .addChild(form)
   ;
 
-  var self = {
+  self = {
     attach: function(left, top) {
       $("body").append( uiWindow
         .css({

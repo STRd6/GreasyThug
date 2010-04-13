@@ -1,4 +1,4 @@
-CommandHistory = function(store) {
+var CommandHistory = function(store) {
   var commandHistory;
   var historyIndex; 
   

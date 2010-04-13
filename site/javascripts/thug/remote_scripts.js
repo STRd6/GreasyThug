@@ -1,3 +1,10 @@
+/*global
+  $, chrome,
+  UI,
+  logging, proxy, getCurrentDomain,
+  scriptManager
+*/
+
 function RemoteScripts(remoteServer) {
   var domain = getCurrentDomain();
   var url = remoteServer + "scripts.json?domain=" + domain;
@@ -16,13 +23,14 @@ function RemoteScripts(remoteServer) {
 
       $.each(scripts, function() {
         var script = this.script;
+        var installButton;
 
         function setInstalled() {
           installButton.attr("disabled", true);
           installButton.text("Installed");
         }
 
-        var installButton = UI.Button("Install", {title: "Install " + script.title}, function() {
+        installButton = UI.Button("Install", {title: "Install " + script.title}, function() {
           scriptManager.saveScript(script.title, script.code, true, script.guid);
           setInstalled();
         });

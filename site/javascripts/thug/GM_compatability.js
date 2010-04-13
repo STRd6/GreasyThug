@@ -1,3 +1,8 @@
+/*global
+  $, chrome,
+  logging
+*/
+
 function GM_xmlhttpRequest(details) {
   if(logging) {
     console.log("GM_xmlhttpRequest SENDING:");

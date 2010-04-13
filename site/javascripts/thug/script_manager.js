@@ -1,5 +1,13 @@
+/*global
+  $,
+  UI,
+  logging, remoteScriptDomain, publish
+*/
+
 function ScriptManager(title, Scripts) {
   var editWindows = {};
+  var deleteScript, editScript, itemWithId, prepareEditorWindow, saveScript, scriptList, updateScriptPositions;
+  var self;
 
   function addScriptItem(script) {
     var id = script.id;
@@ -35,12 +43,12 @@ function ScriptManager(title, Scripts) {
     scriptItem.attr("scriptId", id);
   }
 
-  function deleteScript(id) {
+  deleteScript = function(id) {
     Scripts.destroy(id);
     itemWithId(id).remove();
-  }
+  };
 
-  function editScript(script) {
+  editScript = function(script) {
     var id = script.id;
     var title = script.title;
 
@@ -54,11 +62,11 @@ function ScriptManager(title, Scripts) {
     }
 
     editWindow.show();
-  }
+  };
 
-  function itemWithId(id) {
+  itemWithId = function(id) {
     return scriptList.find("li[scriptId='"+id+"']");
-  }
+  };
 
   function loadLocalScripts() {
     Scripts.all({order: "position"}, function(scripts) {
@@ -85,7 +93,7 @@ function ScriptManager(title, Scripts) {
     prepareEditorWindow({}, newScriptWindow);
   }
 
-  function prepareEditorWindow(script, editorWindow) {
+  prepareEditorWindow = function(script, editorWindow) {
     var titleField = $("<input type='text' />");
     titleField.val(script.title || "Untitled");
 
@@ -139,9 +147,9 @@ function ScriptManager(title, Scripts) {
       .addChild(saveButton)
       .appendTo("body")
     ;
-  }
+  };
 
-  function saveScript(title, code, active, guid) {
+  saveScript = function(title, code, active, guid) {
     Scripts.create({
       title: title,
       code: code,
@@ -156,17 +164,17 @@ function ScriptManager(title, Scripts) {
         self.show();
       });
     });
-  }
+  };
 
-  function updateScriptPositions() {
+  updateScriptPositions = function() {
     scriptList.find("li").each(function(position) {
       Scripts.update($(this).attr("scriptId"), {position: position});
     });
-  }
+  };
 
-  var scriptList = UI.List(updateScriptPositions);
+  scriptList = UI.List(updateScriptPositions);
 
-  var self = UI.Window(title).hide();
+  self = UI.Window(title).hide();
   self.addChild(scriptList);
   self.addChild($("<a href='#'>+ Add New Script</a>").click(function(){newScript(); return false;}));
   $("body").append(self);

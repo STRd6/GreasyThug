@@ -1,3 +1,9 @@
+/*global
+  $,
+  openDatabase,
+  get
+*/
+
 /**
  *  Scorpio handles all the database connectivity.
  */
@@ -149,7 +155,9 @@ var Scorpio = (function() {
           'SELECT * FROM ' + table + 
           ' WHERE ' + primaryKey + ' = ?', [id],
           function(transaction, result) {
-            callback(rowsToObjects(result.rows)[0]);
+            if(callback) {
+              callback(rowsToObjects(result.rows)[0]);
+            }
           }
         );
       },
@@ -157,7 +165,9 @@ var Scorpio = (function() {
       first: optionPasser(function(options, callback) {
         $.extend(options, {limit: 1});
         sqlRunner(options, function(transaction, result) {
-          callback(rowsToObjects(result.rows)[0]);
+          if(callback) {
+            callback(rowsToObjects(result.rows)[0]);
+          }
         });
       }),
 

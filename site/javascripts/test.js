@@ -1,3 +1,9 @@
+/*global
+  $,
+  ok, test, equals,
+  Scorpio
+*/
+
 $(function() {
   test("a basic test example", function() {
     ok( true, "this test is fine" );

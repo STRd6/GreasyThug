@@ -1,3 +1,10 @@
+/*global
+  $,
+  chrome, localStorage,
+  Scorpio,
+  remoteScriptDomain
+*/
+
 // Default Configuration
 localStorage.autoshow = 0;
 localStorage.autorun = 1;

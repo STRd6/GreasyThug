@@ -1,3 +1,5 @@
+/*global $, chrome, window, logging */
+
 /**
  * Functions to get and set values from the background page's local storage
  */
@@ -101,7 +103,7 @@ function publish(script, callback) {
   });
 }
 
-function BackgrondDBTableInterface(table) {
+function BackgroundDBTableInterface(table) {
   function callBackgroundPageDB(method, id, data, callback) {
     var requestData = {
       action: "db",

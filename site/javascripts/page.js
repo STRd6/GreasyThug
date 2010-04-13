@@ -1,3 +1,11 @@
+/*global
+    $, chrome,
+    Scorpio, CommandHistory, IJC,
+    ScriptManager, RemoteScripts, BackgroundDBTableInterface, UI,
+    remoteScriptDomain,
+    get, set
+*/
+
 function executeActiveScripts(Scripts, callback) {
   Scripts.all({order: "position", conditions: "active = 1"}, function(scripts) {
     $.each(scripts, function(index, script) {
@@ -21,10 +29,10 @@ function executeActiveScripts(Scripts, callback) {
   });
 }
 
-var BackgroundScripts = BackgrondDBTableInterface("scripts");
+var BackgroundScripts = BackgroundDBTableInterface("scripts");
 
 Scorpio.init();
-commandHistory = new CommandHistory(Scorpio);
+var commandHistory = new CommandHistory(Scorpio);
 
 var scriptManager = ScriptManager("Local Scripts", Scorpio.scripts);
 var globalScriptManager = ScriptManager("Global Scripts", BackgroundScripts);
