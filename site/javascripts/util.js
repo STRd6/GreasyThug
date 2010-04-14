@@ -28,22 +28,6 @@ function intercept(method, interception) {
   };
 }
 
-function proxy(data, callback) {
-  if(logging) {
-    console.log("PROXY SENDING:");
-    console.log(data);
-  }
-
-  chrome.extension.sendRequest({action: "proxy", data: data}, function(response) {
-    if(logging) {
-      console.log("PROXY RECEIVING:");
-      console.log(response);
-    }
-
-    callback(response);
-  });
-}
-
 function ajax(settings) {
   if(logging) {
     console.log("ajax SENDING:");
@@ -65,6 +49,15 @@ function ajax(settings) {
         settings.error(response.XMLHttpRequest, response.textStatus, response.errorThrown);
       }
     }
+  });
+}
+
+function getJSON(url, data, callback) {
+  return ajax({
+    data: data,
+    dataType: 'json',
+    success: callback,
+    url: url
   });
 }
 

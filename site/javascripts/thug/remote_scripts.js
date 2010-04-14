@@ -1,17 +1,17 @@
 /*global
   $, chrome,
   UI,
-  logging, proxy, getCurrentDomain,
+  logging, getJSON, getCurrentDomain,
   scriptManager
 */
 
 function RemoteScripts(remoteServer) {
   var domain = getCurrentDomain();
-  var url = remoteServer + "scripts.json?domain=" + domain;
+  var url = remoteServer + "scripts.json";
 
   var window = UI.Window("Remote Scripts for " + domain);
 
-  proxy({url: url}, function(scripts) {
+  getJSON(url, {domain: domain}, function(scripts) {
     if(logging) {
       console.log("RETRIEVED REMOTE SCRIPTS FROM: " + remoteServer);
       console.log(scripts);

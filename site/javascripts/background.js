@@ -64,10 +64,6 @@ chrome.extension.onRequest.addListener(
       sendResponse({key: request.key, value: request.value});
     } else if (request.action == "get") {
       sendResponse({key: request.key, value: localStorage[request.key]});
-    } else if (request.action == "proxy") {
-      $.getJSON(request.data.url, function(data) {
-        sendResponse(data);
-      });
     } else if (request.action == "publish") {
       publish(request.script, function(data, status) {
         sendResponse({data: data, status: status});
