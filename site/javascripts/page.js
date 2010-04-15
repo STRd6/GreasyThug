@@ -1,9 +1,10 @@
 /*global
     $, chrome,
     Scorpio, CommandHistory, IJC,
-    ScriptManager, RemoteScripts, BackgroundDBTableInterface, UI,
-    remoteScriptDomain,
-    get, set
+    ScriptManager, RemoteScripts, BackgroundDBTableInterface, LoginScreen
+    UI,
+    remoteScriptDomain, logging: true,
+    getVal, setVal
 */
 
 function executeActiveScripts(Scripts, callback) {
@@ -53,13 +54,11 @@ var interactiveConsole = new IJC();
 interactiveConsole.element.hide();
 interactiveConsole.attach(0, 0);
 
-var logging = false;
-
-get("logging", function(val) {
+getVal("logging", function(val) {
   logging = (val == "1");
 });
 
-get("autorun", function(autorun) {
+getVal("autorun", function(autorun) {
   if(autorun != "0") {
     // Execute background scripts then page scripts
     executeActiveScripts(BackgroundScripts, function() {
@@ -68,7 +67,7 @@ get("autorun", function(autorun) {
   }
 });
 
-get("autoshow", function(autoshow) {
+getVal("autoshow", function(autoshow) {
   if(autoshow != "0") {
     controlPanel.show();
   }
@@ -141,7 +140,7 @@ chrome.extension.onRequest.addListener(
   }
 );
 
-get("display_remote_scripts", function(val) {
+getVal("display_remote_scripts", function(val) {
   if(val != "0") {
     remoteScriptsWindow.show();
   }

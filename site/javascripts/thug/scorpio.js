@@ -1,7 +1,7 @@
 /*global
   $,
   openDatabase,
-  get
+  getVal
 */
 
 /**
@@ -11,7 +11,7 @@ var Scorpio = (function() {
   var logging = false;
   var db;
 
-  get("logging", function(val) {
+  getVal("logging", function(val) {
     logging = (val == "1");
   });
 

@@ -8,7 +8,7 @@
     - options.each do |option|
       %p= partial "checkbox", :locals => {:name => option}
       :javascript
-        get('#{option}', function(value) {
+        getVal('#{option}', function(value) {
           $('input[name=#{option}]').attr('checked', value != 0);
         });
 
@@ -16,5 +16,5 @@
   $("input[type='checkbox']").change(function() {
     $this = $(this);
     
-    set($this.attr('name'), $this.attr('checked') ? '1' : '0');
+    setVal($this.attr('name'), $this.attr('checked') ? '1' : '0');
   });
