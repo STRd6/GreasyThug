@@ -1,4 +1,4 @@
-/*global $, chrome, window, logging */
+/*global $, chrome, window, logging, requireLogin */
 
 /**
  * Functions to get and set values from the background page's local storage
@@ -107,26 +107,28 @@ function getCurrentDomain() {
 }
 
 function publish(script, callback) {
-  script.domain = getCurrentDomain();
+  requireLogin(function() {
+    script.domain = getCurrentDomain();
 
-  var requestData = {
-    action: "publish",
-    script: script
-  };
+    var requestData = {
+      action: "publish",
+      script: script
+    };
 
-  if(logging) {
-    console.log("PUBLISH SENDING:");
-    console.log(requestData);
-  }
-
-  chrome.extension.sendRequest(requestData, function(data, status) {
     if(logging) {
-      console.log("PUBLISH RECEIVED:");
-      console.log(status);
-      console.log(data);
+      console.log("PUBLISH SENDING:");
+      console.log(requestData);
     }
 
-    callback(data, status);
+    chrome.extension.sendRequest(requestData, function(data, status) {
+      if(logging) {
+        console.log("PUBLISH RECEIVED:");
+        console.log(status);
+        console.log(data);
+      }
+
+      callback(data, status);
+    });
   });
 }
 

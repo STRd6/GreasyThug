@@ -1,7 +1,7 @@
 /*global
     $, chrome,
     Scorpio, CommandHistory, IJC,
-    ScriptManager, RemoteScripts, BackgroundDBTableInterface, LoginScreen
+    ScriptManager, RemoteScripts, BackgroundDBTableInterface,
     UI,
     remoteScriptDomain, logging: true,
     getVal, setVal
