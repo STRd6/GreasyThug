@@ -52,12 +52,46 @@ function ajax(settings) {
   });
 }
 
+function get(url, data, callback, type) {
+  // shift arguments if data argument was omited
+  if($.isFunction(data)) {
+    type = type || callback;
+    callback = data;
+    data = {};
+  }
+
+  return ajax({
+    type: "GET",
+    url: url,
+    data: data,
+    success: callback,
+    dataType: type
+  });
+}
+
 function getJSON(url, data, callback) {
   return ajax({
     data: data,
     dataType: 'json',
     success: callback,
     url: url
+  });
+}
+
+function post(url, data, callback, type) {
+  // shift arguments if data argument was omited
+  if($.isFunction(data)) {
+    type = type || callback;
+    callback = data;
+    data = {};
+  }
+
+  return ajax({
+    type: "POST",
+    url: url,
+    data: data,
+    success: callback,
+    dataType: type
   });
 }
 
