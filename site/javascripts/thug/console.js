@@ -19,8 +19,25 @@ var IJC = function() {
     puts(' => ' + result);
   }
 
+  function processTab(event, console) {
+    if (event.keyCode == 9) {
+      var elem = input.get(0);
+      var startPos = elem.selectionStart;
+      var endPos = elem.selectionEnd;
+
+      var textBefore = input.val().substring(0, startPos);
+      var textAfter = input.val().substring(endPos);
+      input.val(textBefore + "  " + textAfter);
+
+      setTimeout(function() {
+        elem.setSelectionRange(startPos + 2, startPos + 2);
+        input.focus();
+      }, 1);
+    }
+  }
+
   // Private Variables
-  var callbacks = {keydown: [], command: [processSuccess]};
+  var callbacks = {keydown: [processTab], command: [processSuccess]};
 
   var uiWindow = UI.Window(TITLE);
   var output = $("<pre class='outputBuffer'></pre>");
@@ -35,6 +52,7 @@ var IJC = function() {
   input = $("<textarea />").keydown(function(event) {
     $.each(callbacks.keydown, function(index, callback) {
       callback(event, self);
+      return false;
     });
   });
 
