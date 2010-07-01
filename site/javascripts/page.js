@@ -37,7 +37,7 @@ var commandHistory = new CommandHistory(Scorpio);
 
 var scriptManager = ScriptManager("Local Scripts", Scorpio.scripts);
 var globalScriptManager = ScriptManager("Global Scripts", BackgroundScripts);
-var remoteScriptsWindow = RemoteScripts("http://" + remoteScriptDomain + "/");
+var remoteScriptsWindow;
 
 var controlPanel = UI.Window("Greasy Thug Control Panel", {
   dragStop: function() {
@@ -108,6 +108,9 @@ var showScriptsButton = UI.Button("Local Scripts", {"class": "showScripts"}, fun
 var showRemoteScriptsButton = UI.Button("Scripts from " + remoteScriptDomain, function() {
   if(remoteScriptsWindow) {
     remoteScriptsWindow.toggle();
+  } else {
+    remoteScriptsWindow = RemoteScripts("http://" + remoteScriptDomain + "/");
+    remoteScriptsWindow.show();
   }
   return false;
 });
