@@ -19,7 +19,9 @@
     var loginForm, logoutButton;
 
     function loggedOut() {
-      console.log("LOGGED OUT!");
+      if(logging) {
+        console.log("LOGGED OUT!");
+      }
       isLoggedIn = false;
 
       status.text("Not logged in");
@@ -28,7 +30,9 @@
     }
 
     function loggedIn(user) {
-      console.log("LOGGED IN!");
+      if(logging) {
+        console.log("LOGGED IN!");
+      }
       isLoggedIn = true;
 
       status.text("Logged in as: " + user.display_name);

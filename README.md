@@ -1,4 +1,4 @@
-Greasy Thug v0.2.1
+Greasy Thug v0.2.6
 ==================
 I've been called a greasy thug, too. It never stops hurting. So here's what we're gonna do: We're gonna grease ourselves up real good and trash that place with a baseball bat. - Homer
 

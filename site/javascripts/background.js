@@ -8,7 +8,7 @@
 // Default Configuration
 localStorage.autoshow = 0;
 localStorage.autorun = 1;
-localStorage.logging = 1;
+localStorage.logging = 0;
 localStorage.display_remote_scripts = 0;
 
 function getVal(key, callback) {
