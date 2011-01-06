@@ -1,10 +1,10 @@
 .strd6-window
   +blueprint-nested-reset
 
-  background-color= !gray
-  color= !dark_green
+  background-color: $gray
+  color: $dark_green
   float: none
-  font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,
+  font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New
   font-size: 12px
   font-weight: bold
   position: absolute
@@ -16,8 +16,8 @@
   -webkit-border-top-right-radius: 8px
 
   .handle
-    background-color= !dark_gray
-    color= !light_green
+    background-color: $dark_gray
+    color: $light_green
     cursor: move
     float: none
     font-size: 15px
@@ -31,12 +31,12 @@
     -webkit-border-top-right-radius: 8px
 
   .content
-    background-color= !light_gray
+    background-color: $light_gray
     float: none
     height: auto
     margin: 4px
     max-height: 480px
-    min-width= !minWidth
+    min-width: $minWidth
     overflow: auto
     padding: 4px
     width: auto
@@ -49,7 +49,7 @@
         +clearfix
         padding: 2px
         &:nth-child(even)
-          background-color= !alt_gray
+          background-color: $alt_gray
 
         button
           +float-right
@@ -96,10 +96,10 @@
   textarea
     display: block
     height: 24px
-    margin-bottom= !standard_margin
-    min-width= !minWidth
+    margin-bottom: $standard_margin
+    min-width: $minWidth
 
   form
     display: block
-    min-width= !minWidth
+    min-width: $minWidth
     width: auto
