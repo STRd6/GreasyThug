@@ -6,7 +6,7 @@
 var UI = (function() {
   var imgURL = chrome.extension.getURL("") + "stylesheets/dark-hive/images/";
   var backgroundImage = "url(" + imgURL + "ui-icons_ffffff_256x240.png)";
-  var zMax = 0;
+  var zMax = 9000;
 
   function ensureOptions(method) {
     return function(arg1, arg2) {
