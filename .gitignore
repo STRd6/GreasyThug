@@ -1,4 +1,6 @@
+build/
 site/stylesheets/*.css
 site/*.html
+.project
 .sass-cache/
 GreasyThug.zip
