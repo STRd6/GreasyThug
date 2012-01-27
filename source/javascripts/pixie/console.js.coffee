@@ -1,10 +1,3 @@
-#= require lib/jquery-1.7.1.min
-
-#= require lib/jquery.hotkeys
-
-#= require lib/corelib
-#= require lib/namespace
-
 #= require lib/codemirror/codemirror
 #= require lib/codemirror/mirrorframe
 
@@ -135,6 +128,7 @@ namespace "Pixie", (Pixie) ->
           title: titleText
         .bind "mousedown touchstart", (e) ->
           perform() unless $(this).attr('disabled')
+        .button()
 
         return actionElement.appendTo(actionBar)
 
