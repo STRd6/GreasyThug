@@ -2,9 +2,7 @@
 %html
   %head
     %title Greasy Thug
-    = stylesheets 'static/qunit'
-    = javascripts 'jquery-1.4.2.min', 'jquery-ui-1.8rc2.custom.min', 'qunit'
-    = javascripts 'thug/scorpio'
-    = javascripts 'test'
+    = stylesheet_link_tag 'static/qunit', 'content_script'
+    = javascript_include_tag 'lib/jquery-1.7.1.min', 'jquery-ui-1.8rc2.custom.min', 'lib/qunit', 'test'
   %body
     = yield
