@@ -1,4 +1,5 @@
-#= require thug/console
+#= require pixie/console
+#= require pixie/window
 
 $ ->
   test "a basic test example", ->
@@ -6,4 +7,9 @@ $ ->
     value = "hello"
     equals "hello", value, "We expect value to be hello"
 
-  Pixie.Console().appendTo("body")
+  consoleWindow = Pixie.Window
+    title: "Script Console"
+
+  Pixie.Console().appendTo(consoleWindow.find(".content"))
+
+  consoleWindow.dialog('open')
