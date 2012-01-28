@@ -1,3 +1,5 @@
+#= require lib/namespace
+
 #= require ./persistence
 
 namespace "Pixie", (Pixie) ->
