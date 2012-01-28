@@ -3,6 +3,8 @@
 
 #= require lib/coffee-script
 
+#= require ./history
+
 namespace "Pixie", (Pixie) ->
   DEFAULTS =
     evalContext: eval
@@ -21,22 +23,23 @@ namespace "Pixie", (Pixie) ->
 
     {evalContext, maxHistoryLength} = config
 
-    #TODO: back by local storage
-    history = []
-    historyPosition = -1
+    pendingCommand = ""
+
+    history = Pixie.History
+      localPersistenceKey: "pixie_console_command_history"
 
     prev = ->
-      historyPosition += 1
-      self.val(history.wrap(historyPosition))
+      if command = history.previous()
+        self.val(command)
 
     next = ->
-      historyPosition -= 1
-      self.val(history.wrap(historyPosition))
+      if command = history.next()
+        self.val(command)
+      else
+        self.val(pendingCommand)
 
     record = (command) ->
-      history.unshift(command)
-      history.length = maxHistoryLength if history.length > maxHistoryLength
-      historyPosition = -1
+      history.push command
 
     print = (message) ->
       # Prevent the hilarity that is appending whole dom elements to the output
@@ -46,7 +49,7 @@ namespace "Pixie", (Pixie) ->
       output.text(message)
 
     run = ->
-      return unless command = editor.getCode()
+      return unless command = self.val()
 
       #TODO: Parse and process special commands
 
@@ -56,11 +59,10 @@ namespace "Pixie", (Pixie) ->
         result = evalContext(compiledCommand)
 
         self.val("")
-
-        record command
       catch error
         result = error.message
 
+      record command
       print result
 
       return result
@@ -102,6 +104,12 @@ namespace "Pixie", (Pixie) ->
             e.preventDefault()
 
             handler()
+
+            return false
+
+      $(editor.win.document).keyup ->
+        pendingCommand = self.val()
+
     , 1
 
     output = self.find(".output")

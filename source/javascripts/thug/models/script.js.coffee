@@ -4,3 +4,6 @@
 
 namespace "Thug.Models", (Models) ->
   class Models.Script extends Backbone.Model
+
+  class Models.ScriptCollection extends Backbone.Collection
+    model: Models.Script
