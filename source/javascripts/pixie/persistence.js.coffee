@@ -1,3 +1,5 @@
+#= require lib/namespace
+
 namespace "Pixie.Persistence", (Persistence) ->
   ###*
   A wrapper on the Local Storage API 

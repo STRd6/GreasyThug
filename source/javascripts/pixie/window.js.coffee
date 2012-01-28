@@ -1,3 +1,7 @@
+#= require lib/jquery-ui-1.8.17.custom.min
+
+#= require lib/namespace
+
 namespace "Pixie", (Pixie) ->
   Pixie.Window = (I={}) ->
     self = $ """

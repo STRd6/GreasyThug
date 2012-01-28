@@ -31,11 +31,13 @@ namespace "Pixie", (Pixie) ->
     prev = ->
       if command = history.previous()
         self.val(command)
+      # Remain on last command when at the end of history
 
     next = ->
       if command = history.next()
         self.val(command)
       else
+        # Exausted history buffer, replace pending command
         self.val(pendingCommand)
 
     record = (command) ->

@@ -26,4 +26,5 @@ $ ->
     click: ->
       consoleWindow.dialog('open')
     text: "Open"
+  .button()
   .appendTo "body"
