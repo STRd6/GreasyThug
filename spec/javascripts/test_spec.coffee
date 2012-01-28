@@ -1,3 +1,5 @@
-describe "some test", ->
-  it "should work", ->
-    expect(2).toEqual(2)
+require 'pixie/console.js'
+
+describe "Console", ->
+  it "should exist", ->
+    expect(Pixie.Console).toBeDefined()
