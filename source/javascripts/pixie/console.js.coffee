@@ -98,17 +98,24 @@ namespace "Pixie", (Pixie) ->
         tabMode: "shift"
         textWrapping: false
 
+      keepState = true
+
       for binding, handler of keyBindings
         do (handler) ->
           $(editor.win.document).bind "keydown", binding, (e) ->
             e.preventDefault()
 
+            # Don't set the state of the pending command
+            # when doing special key commands
+            keepState = false
+
             handler()
 
-            return false
+      $(editor.win.document).keyup (e) ->
+        pendingCommand = self.val() if keepState
 
-      $(editor.win.document).keyup ->
-        pendingCommand = self.val()
+        # Every keydown triggers a key up, reset keepState
+        keepState = true
 
     , 1
 
