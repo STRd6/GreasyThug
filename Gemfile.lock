@@ -4,6 +4,15 @@ GEM
     activesupport (3.1.3)
       multi_json (~> 1.0)
     addressable (2.2.6)
+    capybara (1.1.2)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      selenium-webdriver (~> 2.0)
+      xpath (~> 0.1.4)
+    childprocess (0.2.2)
+      ffi (~> 1.0.6)
     chunky_png (1.2.5)
     coffee-script (2.2.0)
       coffee-script-source
@@ -18,6 +27,12 @@ GEM
       addressable (>= 2.1.1)
       eventmachine (>= 0.12.9)
     eventmachine (0.12.10)
+    evergreen (1.0.0)
+      capybara (~> 1.0)
+      coffee-script
+      json_pure
+      launchy
+      sinatra (~> 1.1)
     execjs (1.2.13)
       multi_json (~> 1.0)
     ffi (1.0.11)
@@ -34,6 +49,9 @@ GEM
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
     i18n (0.6.0)
+    json_pure (1.6.1)
+    launchy (2.0.5)
+      addressable (~> 2.2.6)
     libv8 (3.3.10.4)
     maruku (0.6.0)
       syntax (>= 1.0.0)
@@ -59,7 +77,9 @@ GEM
       uglifier (~> 1.0.0)
     middleman-livereload (0.2.1)
       guard-livereload (~> 0.3.1)
+    mime-types (1.17.2)
     multi_json (1.0.4)
+    nokogiri (1.5.0)
     padrino-core (0.10.5)
       activesupport (~> 3.1.0)
       http_router (~> 0.10.2)
@@ -76,7 +96,13 @@ GEM
       rack (>= 1.0)
     rb-inotify (0.8.8)
       ffi (>= 0.5.0)
+    rubyzip (0.9.4)
     sass (3.1.12)
+    selenium-webdriver (2.13.0)
+      childprocess (>= 0.2.1)
+      ffi (~> 1.0.9)
+      json_pure
+      rubyzip
     sinatra (1.3.2)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -103,11 +129,14 @@ GEM
       multi_json (>= 1.0.2)
     url_mount (0.2.1)
       rack
+    xpath (0.1.4)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  evergreen (~> 1.0.0)
   middleman (~> 2.0.14)
   rb-inotify
   therubyracer
