@@ -5,7 +5,6 @@
 #= require_tree ./pixie
 
 consoleWindow = null
-
 displayConsoleWindow = ->
   unless consoleWindow
     consoleWindow = Pixie.Window
@@ -15,6 +14,23 @@ displayConsoleWindow = ->
 
   consoleWindow.dialog('open')
 
-chrome.extension.onRequest.addListener (request, sender, sendResponse) ->
+controlPanel = null
+window.displayControlPanel = ->
+  unless controlPanel
+    controlPanel = Pixie.Window
+      title: "Control Panel"
+
+    consoleButton = $ "<button>",
+      text: "Console"
+      click: displayConsoleWindow
+    .button()
+
+    controlPanel.find(".content").append(
+      consoleButton
+    )
+
+  controlPanel.dialog('open')
+
+chrome.extension?.onRequest.addListener (request, sender, sendResponse) ->
   if(request.action == "toggle")
-    displayConsoleWindow()
+    displayControlPanel()

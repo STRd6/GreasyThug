@@ -19,6 +19,7 @@ namespace "Pixie", (Pixie) ->
       autoOpen: false
       resizable: false
       width: "auto"
+      minHeight: null
 
     # Wrap dialog div for css scoping and theming
     self.parent().css(
