@@ -15,7 +15,7 @@ $ ->
 
   Pixie.Console().appendTo(consoleWindow.find(".content"))
 
-  consoleWindow.dialog('open')
+  consoleWindow.dialog('open').addClass("clean_thug")
 
   $ "<button>",
     click: ->
@@ -23,6 +23,5 @@ $ ->
     text: "Open"
   .button()
   .appendTo "body"
-
 
   editor = new CodeMirror.fromTextArea $("#codeTest").get(0)
