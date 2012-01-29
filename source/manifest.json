@@ -19,24 +19,11 @@
         "https://*/*"
       ],
       "css": [
-        "stylesheets/dark-hive/jquery-ui-1.8rc2.custom.css",
+        "stylesheets/dark-hive/jquery-ui-1.8.17.custom.css",
         "stylesheets/content_script.css"
       ],
       "js": [
-        "javascripts/config.js",
-        "javascripts/jquery-1.4.2.min.js",
-        "javascripts/jquery-ui-1.8rc2.custom.min.js",
-        "javascripts/util.js",
-        "javascripts/thug/GM_compatability.js",
-        "javascripts/thug/command_history.js",
-        "javascripts/thug/scorpio.js",
-        "javascripts/thug/ui.js",
-        "javascripts/thug/console.js",
-        "javascripts/thug/script_manager.js",
-        "javascripts/thug/remote_scripts.js",
-        "javascripts/thug/login.js",
-        "javascripts/page.js",
-        "javascripts/lib/date.js"
+        "javascripts/content_script.js"
       ]
     }
   ],

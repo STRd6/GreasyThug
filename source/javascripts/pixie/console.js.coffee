@@ -1,5 +1,5 @@
-#= require lib/codemirror/codemirror
-#= require lib/codemirror/mirrorframe
+#= require lib/codemirror2/codemirror
+#= require lib/codemirror2/coffeescript
 
 #= require lib/coffee-script
 
@@ -84,42 +84,36 @@ namespace "Pixie", (Pixie) ->
     editor = null
 
     keyBindings =
-      "shift+return": run
-      "pageup": prev
-      "pagedown": next
+      "Shift+Enter": run
+      "PageUp": prev
+      "PageDown": next
 
-    # HACK: Don't init the editor until it's been added to DOM :(
-    setTimeout ->
-      editor = new CodeMirror.fromTextArea input.get(0),
-        autoMatchParens: true
-        # height: "100%"
-        lineNumbers: true
-        parserfile: ["tokenize_" + lang + ".js", "parse_" + lang + ".js"]
-        path: "/javascripts/lib/codemirror/"
-        stylesheet: ["/stylesheets/codemirror/main.css"]
-        tabMode: "shift"
-        textWrapping: false
+    keepState = true
 
-      keepState = true
+    for binding, handler of keyBindings
+      do (handler) ->
+        keyBindings[binding] = ->
+          # Don't set the state of the pending command
+          # when doing special key commands
+          keepState = false
 
-      for binding, handler of keyBindings
-        do (handler) ->
-          $(editor.win.document).bind "keydown", binding, (e) ->
-            e.preventDefault()
+          handler()
 
-            # Don't set the state of the pending command
-            # when doing special key commands
-            keepState = false
+    editor = new CodeMirror.fromTextArea input.get(0),
+      autoMatchParens: true
+      # height: "100%"
+      lineNumbers: true
+      tabMode: "shift"
+      textWrapping: false
+      extraKeys: keyBindings
+      onKeyEvent: (e) ->
+        if e.type == "keyup"
+          pendingCommand = self.val() if keepState
 
-            handler()
+          # Every keydown triggers a key up, reset keepState
+          keepState = true
 
-      $(editor.win.document).keyup (e) ->
-        pendingCommand = self.val() if keepState
-
-        # Every keydown triggers a key up, reset keepState
-        keepState = true
-
-    , 1
+          return undefined
 
     output = self.find(".output")
 

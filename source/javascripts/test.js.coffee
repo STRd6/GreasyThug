@@ -10,11 +10,6 @@
 #= require pixie/window
 
 $ ->
-  test "a basic test example", ->
-    ok true, "this test is fine"
-    value = "hello"
-    equals "hello", value, "We expect value to be hello"
-
   consoleWindow = Pixie.Window
     title: "Script Console"
 
@@ -28,3 +23,6 @@ $ ->
     text: "Open"
   .button()
   .appendTo "body"
+
+
+  editor = new CodeMirror.fromTextArea $("#codeTest").get(0)
