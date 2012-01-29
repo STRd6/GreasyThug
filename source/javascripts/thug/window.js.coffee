@@ -2,8 +2,8 @@
 
 #= require lib/namespace
 
-namespace "Pixie", (Pixie) ->
-  Pixie.Window = (I={}) ->
+namespace "Thug", (Thug) ->
+  Thug.Window = (I={}) ->
     Object.reverseMerge I,
       cssScope: "clean_thug"
       theme: "darkness"

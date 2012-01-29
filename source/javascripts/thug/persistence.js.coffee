@@ -1,6 +1,6 @@
 #= require lib/namespace
 
-namespace "Pixie.Persistence", (Persistence) ->
+namespace "Thug.Persistence", (Persistence) ->
   ###*
   A wrapper on the Local Storage API 
 

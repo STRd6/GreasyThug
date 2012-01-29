@@ -2,13 +2,13 @@
 
 #= require ./persistence
 
-namespace "Pixie", (Pixie) ->
-  Pixie.History = (I={}, self={}) ->
+namespace "Thug", (Thug) ->
+  Thug.History = (I={}, self={}) ->
     Object.reverseMerge I,
       maxHistory: 50
 
     if I.localPersistenceKey
-      if data = Pixie.Persistence.Local.get(I.localPersistenceKey)
+      if data = Thug.Persistence.Local.get(I.localPersistenceKey)
         I.maxHistory = data.maxHistory if data.maxHistory
 
         {commands} = data
@@ -24,7 +24,7 @@ namespace "Pixie", (Pixie) ->
         if commands.length > I.maxHistory
           commands.shift()
 
-        Pixie.Persistence.Local.set(I.localPersistenceKey, self)
+        Thug.Persistence.Local.set(I.localPersistenceKey, self)
 
         index = commands.length
 

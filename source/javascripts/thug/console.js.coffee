@@ -3,14 +3,15 @@
 
 #= require lib/coffee-script
 
+#= require ./settings
 #= require ./history
 
-namespace "Pixie", (Pixie) ->
+namespace "Thug", (Thug) ->
   DEFAULTS =
     evalContext: eval
     maxHistoryLength: 20
 
-  Pixie.Console = (options) ->
+  Thug.Console = (options) ->
     self = $ """
       <div class=console>
         <div class=actions/>
@@ -25,8 +26,8 @@ namespace "Pixie", (Pixie) ->
 
     pendingCommand = ""
 
-    history = Pixie.History
-      localPersistenceKey: "pixie_console_command_history"
+    history = Thug.History
+      localPersistenceKey: "#{Thug.APP_NAMESPACE}/console_command_history"
 
     prev = ->
       if command = history.previous()
