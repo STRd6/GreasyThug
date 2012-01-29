@@ -84,7 +84,7 @@ namespace "Pixie", (Pixie) ->
     editor = null
 
     keyBindings =
-      "Shift+Enter": run
+      "Shift-Enter": run
       "PageUp": prev
       "PageDown": next
 
@@ -106,7 +106,7 @@ namespace "Pixie", (Pixie) ->
       tabMode: "shift"
       textWrapping: false
       extraKeys: keyBindings
-      onKeyEvent: (e) ->
+      onKeyEvent: (editor, e) ->
         if e.type == "keyup"
           pendingCommand = self.val() if keepState
 
@@ -122,9 +122,9 @@ namespace "Pixie", (Pixie) ->
     Object.extend self,
       val: (newVal) ->
         if newVal?
-          editor.setCode(newVal)
+          editor.setValue(newVal)
         else
-          editor.getCode()
+          editor.getValue()
 
       addAction: (action) ->
         {name} = action

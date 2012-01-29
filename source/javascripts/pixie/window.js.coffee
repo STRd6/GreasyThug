@@ -21,6 +21,8 @@ namespace "Pixie", (Pixie) ->
       width: "auto"
 
     # Wrap dialog div for css scoping and theming
-    self.parent().wrap("<div class='#{I.cssScope} #{I.theme}' />")
+    self.parent().css(
+      position: "fixed"
+    ).addClass(I.cssScope).addClass(I.theme)
 
     return self

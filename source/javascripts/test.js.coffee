@@ -24,4 +24,3 @@ $ ->
   .button()
   .appendTo "body"
 
-  editor = new CodeMirror.fromTextArea $("#codeTest").get(0)
