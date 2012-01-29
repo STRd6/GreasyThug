@@ -4,6 +4,10 @@
 
 namespace "Pixie", (Pixie) ->
   Pixie.Window = (I={}) ->
+    Object.reverseMerge I,
+      cssScope: "clean_thug"
+      theme: "darkness"
+
     self = $ """
       <div class=window>
         <div class=content/>
@@ -15,5 +19,8 @@ namespace "Pixie", (Pixie) ->
       autoOpen: false
       resizable: false
       width: "auto"
+
+    # Wrap dialog div for css scoping and theming
+    self.parent().wrap("<div class='#{I.cssScope} #{I.theme}' />")
 
     return self

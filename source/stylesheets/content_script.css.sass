@@ -1,9 +1,11 @@
 @import compass/css3
 @import compass/reset/utilities
 
-/* TODO Scope styles
-
 @import console
 
+// CSS scoping wrapper for dialog components 
 .clean_thug
+  +inline-block
   +nested-reset
+
+  position: absolute

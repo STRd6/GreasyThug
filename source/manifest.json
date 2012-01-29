@@ -19,7 +19,7 @@
         "https://*/*"
       ],
       "css": [
-        "stylesheets/dark-hive/jquery-ui-1.8.17.custom.css",
+        "stylesheets/themes/darkness/jquery-ui.css",
         "stylesheets/content_script.css"
       ],
       "js": [

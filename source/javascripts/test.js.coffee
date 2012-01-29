@@ -15,7 +15,7 @@ $ ->
 
   Pixie.Console().appendTo(consoleWindow.find(".content"))
 
-  consoleWindow.dialog('open').addClass("clean_thug")
+  consoleWindow.dialog('open')
 
   $ "<button>",
     click: ->
