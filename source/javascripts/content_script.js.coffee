@@ -11,7 +11,12 @@
 {Models, Views, Window} = Thug
 
 scripts = new Models.ScriptCollection
-scripts.fetch()
+scripts.fetch
+  success: (collection) ->
+    # Execute the scripts marked for execution
+    collection.each (script) ->
+      if script.get "autoexec"
+        script.run()
 
 consoleWindow = null
 displayConsoleWindow = ->
