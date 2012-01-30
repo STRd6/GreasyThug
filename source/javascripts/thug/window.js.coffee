@@ -7,21 +7,19 @@ namespace "Thug", (Thug) ->
     Object.reverseMerge I,
       cssScope: "clean_thug"
       theme: "darkness"
+      resizable: false
 
-    self = $ """
-      <div class=window>
-        <div class=content/>
-      </div>
-    """
+    self = $ "<div>"
+      class: "content"
 
     self.dialog
       title: I.title
       autoOpen: false
-      resizable: false
+      resizable: I.resizable
       width: "auto"
       minHeight: null
 
-    # Wrap dialog div for css scoping and theming
+    # Adjust dialog div for css scoping and theming
     self.parent().css(
       position: "fixed"
     ).addClass(I.cssScope).addClass(I.theme)

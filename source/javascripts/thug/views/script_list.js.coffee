@@ -56,7 +56,8 @@ namespace "Thug.Views", (Views) ->
     editScript: (event) ->
       if cid = $(event.currentTarget).data('cid')
         item = @collection.getByCid(cid)
-        alert "TODO: Edit Script " + item.get("name")
+
+        Thug.Views.ScriptEditor.editorFor item
 
     events:
       "dblclick .script": "editScript"

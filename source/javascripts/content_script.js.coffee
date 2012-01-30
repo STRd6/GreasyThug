@@ -32,7 +32,7 @@ displayConsoleWindow = ->
           source: console.val()
           order: scripts.length
 
-    console.appendTo(consoleWindow.find(".content"))
+    console.appendTo(consoleWindow)
 
   consoleWindow.dialog('open')
 
@@ -52,7 +52,7 @@ window.displayControlPanel = ->
       click: displayScriptsWindow
     .button()
 
-    controlPanel.find(".content").append(
+    controlPanel.append(
       consoleButton,
       scriptsButton
     )
@@ -68,7 +68,7 @@ displayScriptsWindow = ->
     scriptList = new Views.ScriptList
       collection: scripts
 
-    scriptsWindow.find(".content").append scriptList.el
+    scriptsWindow.append scriptList.el
 
   scriptsWindow.dialog('open')
 
