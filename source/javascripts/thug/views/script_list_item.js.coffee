@@ -19,7 +19,7 @@ namespace "Thug.Views", (Views) ->
 
       @render()
 
-    render: ->
+    render: =>
       @el.text @model.get("name")
 
       return this

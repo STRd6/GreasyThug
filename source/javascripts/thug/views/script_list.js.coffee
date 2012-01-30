@@ -32,6 +32,10 @@ namespace "Thug.Views", (Views) ->
             debugger unless cid?
             @collection.getByCid(cid).set order: i
 
+            # Persist new ordering
+            @collection.each (model) ->
+              model.save()
+
       @render()
 
     render: =>
