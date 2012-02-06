@@ -71,7 +71,9 @@ namespace "Thug.Views", (Views) ->
 
   Views.ScriptEditor.editorFor = (model) ->
     if existingEditor = scriptEditors[model.id]
-      existingEditor
+      existingEditor.el.dialog("open").dialog("moveToTop")
+
+      return existingEditor
     else
       scriptEditors[model.id] = new Views.ScriptEditor
         model: model

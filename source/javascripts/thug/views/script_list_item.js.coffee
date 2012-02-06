@@ -20,12 +20,28 @@ namespace "Thug.Views", (Views) ->
       @render()
 
     render: =>
-      @el.text @model.get("name")
+      @el.empty()
 
-      @el.prepend $("<input>",
+      nameSpan = $("<span>",
+        class: "name"
+        text: @model.get("name")
+      )
+
+      nameSpan.prepend $("<input>",
         type: "checkbox"
         name: "autoexec"
       ).prop("checked", @model.get("autoexec"))
+
+      @el.append nameSpan
+
+      @el.append $("<button>",
+        text: "Delete"
+        click: =>
+          @model.destroy()
+      ).button
+        text: false
+        icons:
+          primary: "ui-icon-closethick"
 
       return this
 

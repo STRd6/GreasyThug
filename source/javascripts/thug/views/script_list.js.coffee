@@ -4,8 +4,12 @@
 #= require ../models/script
 #= require ./script_list_item
 
+#= require ../content_script/log
+
 namespace "Thug.Views", (Views) ->
   Models = Thug.Models
+
+  log = Thug.ContentScript.log
 
   class Views.ScriptList extends Thug.View
     className: 'scripts'
@@ -25,21 +29,21 @@ namespace "Thug.Views", (Views) ->
       @el.sortable
         axis: 'y'
         scroll: false
+        distance: 20
 
         update: (event, ui) =>
           @$("li").each (i, li) =>
             cid = $(li).data("cid")
             debugger unless cid?
-            @collection.getByCid(cid).set order: i
-
-            # Persist new ordering
-            @collection.each (model) ->
-              model.save()
+            @collection.getByCid(cid).save
+              order: i
+            ,
+              silent: true
 
       @render()
 
     render: =>
-      @el.empty
+      @el.empty()
 
       @collection.each (item) =>
         @appendItem(item)

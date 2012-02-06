@@ -64,6 +64,7 @@ displayScriptsWindow = ->
   unless scriptsWindow
     scriptsWindow = Window
       title: "Scripts"
+      resizable: true
 
     scriptList = new Views.ScriptList
       collection: scripts

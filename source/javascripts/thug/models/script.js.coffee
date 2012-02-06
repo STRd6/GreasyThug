@@ -34,6 +34,11 @@ namespace "Thug.Models", (Models) ->
 
         return error
 
+    save: =>
+      super
+
+      log "Saved: ", this
+
   class Models.ScriptCollection extends Backbone.Collection
     model: Models.Script
     localStorage: store
