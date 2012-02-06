@@ -30,6 +30,7 @@ namespace "Thug.Views", (Views) ->
       nameSpan.prepend $("<input>",
         type: "checkbox"
         name: "autoexec"
+        title: "Autoexec"
       ).prop("checked", @model.get("autoexec"))
 
       @el.append nameSpan

@@ -29,6 +29,7 @@ displayConsoleWindow = ->
       name: "save"
       perform: (console) ->
         scripts.create
+          autoexec: true
           source: console.val()
           order: scripts.length
 
