@@ -1,0 +1,11 @@
+!!!
+%html.clean_thug
+  %head
+    %title= @title
+
+    = stylesheet_link_tag 'content_script', 'themes/darkness/jquery-ui', 'site'
+  %body
+    .content
+      = yield
+
+    = yield_content :script
