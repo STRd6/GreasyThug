@@ -10524,7 +10524,7 @@ Backbone.sync = Backbone.localSync;
 
   namespace("Thug.ContentScript", function(ContentScript) {
     return ContentScript.log = function() {
-      return console.log.apply(null, arguments);
+      return console.log.apply(console, arguments);
     };
   });
 
@@ -10543,6 +10543,7 @@ Backbone.sync = Backbone.localSync;
       __extends(Script, _super);
 
       function Script() {
+        this.save = __bind(this.save, this);
         this.run = __bind(this.run, this);
         Script.__super__.constructor.apply(this, arguments);
       }
@@ -10566,6 +10567,11 @@ Backbone.sync = Backbone.localSync;
           log(error);
           return error;
         }
+      };
+
+      Script.prototype.save = function() {
+        Script.__super__.save.apply(this, arguments);
+        return log("Saved: ", this);
       };
 
       return Script;
@@ -10707,6 +10713,7 @@ A base view for our frontbone framework.
     return Views.ScriptEditor.editorFor = function(model) {
       var existingEditor;
       if (existingEditor = scriptEditors[model.id]) {
+        existingEditor.el.dialog("open").dialog("moveToTop");
         return existingEditor;
       } else {
         return scriptEditors[model.id] = new Views.ScriptEditor({
@@ -10747,11 +10754,30 @@ A base view for our frontbone framework.
       };
 
       ScriptListItem.prototype.render = function() {
-        this.el.text(this.model.get("name"));
-        this.el.prepend($("<input>", {
+        var nameSpan,
+          _this = this;
+        this.el.empty();
+        nameSpan = $("<span>", {
+          "class": "name",
+          text: this.model.get("name")
+        });
+        nameSpan.prepend($("<input>", {
           type: "checkbox",
-          name: "autoexec"
+          name: "autoexec",
+          title: "Autoexec"
         }).prop("checked", this.model.get("autoexec")));
+        this.el.append(nameSpan);
+        this.el.append($("<button>", {
+          text: "Delete",
+          click: function() {
+            return _this.model.destroy();
+          }
+        }).button({
+          text: false,
+          icons: {
+            primary: "ui-icon-closethick"
+          }
+        }));
         return this;
       };
 
@@ -10778,8 +10804,9 @@ A base view for our frontbone framework.
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   namespace("Thug.Views", function(Views) {
-    var Models;
+    var Models, log;
     Models = Thug.Models;
+    log = Thug.ContentScript.log;
     return Views.ScriptList = (function(_super) {
 
       __extends(ScriptList, _super);
@@ -10805,16 +10832,16 @@ A base view for our frontbone framework.
         this.el.sortable({
           axis: 'y',
           scroll: false,
+          distance: 20,
           update: function(event, ui) {
             return _this.$("li").each(function(i, li) {
               var cid;
               cid = $(li).data("cid");
               if (cid == null) debugger;
-              _this.collection.getByCid(cid).set({
+              return _this.collection.getByCid(cid).save({
                 order: i
-              });
-              return _this.collection.each(function(model) {
-                return model.save();
+              }, {
+                silent: true
               });
             });
           }
@@ -10824,7 +10851,7 @@ A base view for our frontbone framework.
 
       ScriptList.prototype.render = function() {
         var _this = this;
-        this.el.empty;
+        this.el.empty();
         this.collection.each(function(item) {
           return _this.appendItem(item);
         });
@@ -10886,10 +10913,12 @@ A base view for our frontbone framework.
       console.addAction({
         name: "save",
         perform: function(console) {
-          return scripts.create({
+          scripts.create({
+            autoexec: true,
             source: console.val(),
             order: scripts.length
           });
+          return displayScriptsWindow();
         }
       });
       console.appendTo(consoleWindow);
@@ -10924,7 +10953,8 @@ A base view for our frontbone framework.
     var scriptList;
     if (!scriptsWindow) {
       scriptsWindow = Window({
-        title: "Scripts"
+        title: "Scripts",
+        resizable: true
       });
       scriptList = new Views.ScriptList({
         collection: scripts

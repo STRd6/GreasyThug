@@ -2138,7 +2138,7 @@ Backbone.sync = Backbone.localSync;
 
   namespace("Thug.ContentScript", function(ContentScript) {
     return ContentScript.log = function() {
-      return console.log.apply(null, arguments);
+      return console.log.apply(console, arguments);
     };
   });
 
@@ -2157,6 +2157,7 @@ Backbone.sync = Backbone.localSync;
       __extends(Script, _super);
 
       function Script() {
+        this.save = __bind(this.save, this);
         this.run = __bind(this.run, this);
         Script.__super__.constructor.apply(this, arguments);
       }
@@ -2180,6 +2181,11 @@ Backbone.sync = Backbone.localSync;
           log(error);
           return error;
         }
+      };
+
+      Script.prototype.save = function() {
+        Script.__super__.save.apply(this, arguments);
+        return log("Saved: ", this);
       };
 
       return Script;

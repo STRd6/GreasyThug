@@ -20,7 +20,7 @@
 
   namespace("Thug.ContentScript", function(ContentScript) {
     return ContentScript.log = function() {
-      return console.log.apply(null, arguments);
+      return console.log.apply(console, arguments);
     };
   });
 

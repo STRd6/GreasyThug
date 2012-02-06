@@ -2170,7 +2170,7 @@ Backbone.sync = Backbone.localSync;
 
   namespace("Thug.ContentScript", function(ContentScript) {
     return ContentScript.log = function() {
-      return console.log.apply(null, arguments);
+      return console.log.apply(console, arguments);
     };
   });
 
@@ -2189,6 +2189,7 @@ Backbone.sync = Backbone.localSync;
       __extends(Script, _super);
 
       function Script() {
+        this.save = __bind(this.save, this);
         this.run = __bind(this.run, this);
         Script.__super__.constructor.apply(this, arguments);
       }
@@ -2212,6 +2213,11 @@ Backbone.sync = Backbone.localSync;
           log(error);
           return error;
         }
+      };
+
+      Script.prototype.save = function() {
+        Script.__super__.save.apply(this, arguments);
+        return log("Saved: ", this);
       };
 
       return Script;
@@ -2269,11 +2275,30 @@ Backbone.sync = Backbone.localSync;
       };
 
       ScriptListItem.prototype.render = function() {
-        this.el.text(this.model.get("name"));
-        this.el.prepend($("<input>", {
+        var nameSpan,
+          _this = this;
+        this.el.empty();
+        nameSpan = $("<span>", {
+          "class": "name",
+          text: this.model.get("name")
+        });
+        nameSpan.prepend($("<input>", {
           type: "checkbox",
-          name: "autoexec"
+          name: "autoexec",
+          title: "Autoexec"
         }).prop("checked", this.model.get("autoexec")));
+        this.el.append(nameSpan);
+        this.el.append($("<button>", {
+          text: "Delete",
+          click: function() {
+            return _this.model.destroy();
+          }
+        }).button({
+          text: false,
+          icons: {
+            primary: "ui-icon-closethick"
+          }
+        }));
         return this;
       };
 
