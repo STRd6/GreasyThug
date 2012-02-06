@@ -33,6 +33,8 @@ displayConsoleWindow = ->
           source: console.val()
           order: scripts.length
 
+        displayScriptsWindow()
+
     console.appendTo(consoleWindow)
 
   consoleWindow.dialog('open')
