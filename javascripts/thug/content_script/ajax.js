@@ -1,0 +1,1 @@
+throw Error("ExecJS::RuntimeError: unmatched ) on line 25\n  (in /home/daniel/apps/GreasyThug/source/javascripts/thug/content_script/ajax.js.coffee)")

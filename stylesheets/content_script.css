@@ -1,0 +1,179 @@
+.clean_thug {
+  /* Default theme */ }
+  .clean_thug .CodeMirror {
+    line-height: 1em;
+    font-family: monospace;
+    background-color: white; }
+  .clean_thug .CodeMirror-scroll {
+    overflow: auto;
+    height: 300px;
+    /* This is needed to prevent an IE[67] bug where the scrolled content
+       is visible outside of the scrolling box. */
+    position: relative; }
+  .clean_thug .CodeMirror-gutter {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    background-color: #f7f7f7;
+    border-right: 1px solid #eee;
+    min-width: 2em;
+    height: 100%; }
+  .clean_thug .CodeMirror-gutter-text {
+    color: #aaa;
+    text-align: right;
+    padding: .4em .2em .4em .4em;
+    white-space: pre !important; }
+  .clean_thug .CodeMirror-lines {
+    padding: .4em; }
+  .clean_thug .CodeMirror pre {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+    margin: 0;
+    white-space: pre;
+    word-wrap: normal; }
+  .clean_thug .CodeMirror-wrap pre {
+    word-wrap: break-word;
+    white-space: pre-wrap; }
+  .clean_thug .CodeMirror-wrap .CodeMirror-scroll {
+    overflow-x: hidden; }
+  .clean_thug .CodeMirror textarea {
+    outline: none !important; }
+  .clean_thug .CodeMirror pre.CodeMirror-cursor {
+    z-index: 10;
+    position: absolute;
+    visibility: hidden;
+    border-left: 1px solid black; }
+  .clean_thug .CodeMirror-focused pre.CodeMirror-cursor {
+    visibility: visible; }
+  .clean_thug div.CodeMirror-selected {
+    background: #d9d9d9; }
+  .clean_thug .CodeMirror-focused div.CodeMirror-selected {
+    background: #d7d4f0; }
+  .clean_thug .CodeMirror-searching {
+    background: #ffa;
+    background: rgba(255, 255, 0, 0.4); }
+  .clean_thug .cm-s-default span.cm-keyword {
+    color: #708; }
+  .clean_thug .cm-s-default span.cm-atom {
+    color: #219; }
+  .clean_thug .cm-s-default span.cm-number {
+    color: #164; }
+  .clean_thug .cm-s-default span.cm-def {
+    color: #00f; }
+  .clean_thug .cm-s-default span.cm-variable {
+    color: black; }
+  .clean_thug .cm-s-default span.cm-variable-2 {
+    color: #05a; }
+  .clean_thug .cm-s-default span.cm-variable-3 {
+    color: #085; }
+  .clean_thug .cm-s-default span.cm-property {
+    color: black; }
+  .clean_thug .cm-s-default span.cm-operator {
+    color: black; }
+  .clean_thug .cm-s-default span.cm-comment {
+    color: #a50; }
+  .clean_thug .cm-s-default span.cm-string {
+    color: #a11; }
+  .clean_thug .cm-s-default span.cm-string-2 {
+    color: #f50; }
+  .clean_thug .cm-s-default span.cm-meta {
+    color: #555; }
+  .clean_thug .cm-s-default span.cm-error {
+    color: #f00; }
+  .clean_thug .cm-s-default span.cm-qualifier {
+    color: #555; }
+  .clean_thug .cm-s-default span.cm-builtin {
+    color: #30a; }
+  .clean_thug .cm-s-default span.cm-bracket {
+    color: #cc7; }
+  .clean_thug .cm-s-default span.cm-tag {
+    color: #170; }
+  .clean_thug .cm-s-default span.cm-attribute {
+    color: #00c; }
+  .clean_thug .cm-s-default span.cm-header {
+    color: #a0a; }
+  .clean_thug .cm-s-default span.cm-quote {
+    color: #090; }
+  .clean_thug .cm-s-default span.cm-hr {
+    color: #999; }
+  .clean_thug .cm-s-default span.cm-link {
+    color: #00c; }
+  .clean_thug span.cm-header, .clean_thug span.cm-strong {
+    font-weight: bold; }
+  .clean_thug span.cm-em {
+    font-style: italic; }
+  .clean_thug span.cm-emstrong {
+    font-style: italic;
+    font-weight: bold; }
+  .clean_thug span.cm-link {
+    text-decoration: underline; }
+  .clean_thug div.CodeMirror span.CodeMirror-matchingbracket {
+    color: #0f0; }
+  .clean_thug div.CodeMirror span.CodeMirror-nonmatchingbracket {
+    color: #f22; }
+
+.clean_thug .console {
+  font-size: 13px;
+  font-family: monospace;
+  padding: 2px;
+  width: 400px; }
+  .clean_thug .console > .actions {
+    margin-bottom: 0.5em; }
+    .clean_thug .console > .actions button {
+      margin-left: 0;
+      margin-right: 6px; }
+  .clean_thug .console > textarea, .clean_thug .console > .output {
+    font-size: 13px;
+    font-family: monospace; }
+  .clean_thug .console > .output {
+    height: 20px;
+    margin: 4px 0;
+    overflow: auto; }
+
+.clean_thug div, .clean_thug span, .clean_thug applet, .clean_thug object, .clean_thug iframe,
+.clean_thug h1, .clean_thug h2, .clean_thug h3, .clean_thug h4, .clean_thug h5, .clean_thug h6, .clean_thug p, .clean_thug blockquote, .clean_thug pre,
+.clean_thug a, .clean_thug abbr, .clean_thug acronym, .clean_thug address, .clean_thug big, .clean_thug cite, .clean_thug code,
+.clean_thug del, .clean_thug dfn, .clean_thug em, .clean_thug img, .clean_thug ins, .clean_thug kbd, .clean_thug q, .clean_thug s, .clean_thug samp,
+.clean_thug small, .clean_thug strike, .clean_thug strong, .clean_thug sub, .clean_thug sup, .clean_thug tt, .clean_thug var,
+.clean_thug b, .clean_thug u, .clean_thug i, .clean_thug center,
+.clean_thug dl, .clean_thug dt, .clean_thug dd, .clean_thug ol, .clean_thug ul, .clean_thug li,
+.clean_thug fieldset, .clean_thug form, .clean_thug label, .clean_thug legend,
+.clean_thug table, .clean_thug caption, .clean_thug tbody, .clean_thug tfoot, .clean_thug thead, .clean_thug tr, .clean_thug th, .clean_thug td,
+.clean_thug article, .clean_thug aside, .clean_thug canvas, .clean_thug details, .clean_thug embed,
+.clean_thug figure, .clean_thug figcaption, .clean_thug footer, .clean_thug header, .clean_thug hgroup,
+.clean_thug menu, .clean_thug nav, .clean_thug output, .clean_thug ruby, .clean_thug section, .clean_thug summary,
+.clean_thug time, .clean_thug mark, .clean_thug audio, .clean_thug video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+.clean_thug table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+.clean_thug caption, .clean_thug th, .clean_thug td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+.clean_thug q, .clean_thug blockquote {
+  quotes: none; }
+  .clean_thug q:before, .clean_thug q:after, .clean_thug blockquote:before, .clean_thug blockquote:after {
+    content: "";
+    content: none; }
+.clean_thug a img {
+  border: none; }
+.clean_thug ul {
+  list-style: none; }
+  .clean_thug ul li {
+    white-space: nowrap; }

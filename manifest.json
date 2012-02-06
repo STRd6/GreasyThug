@@ -1,0 +1,39 @@
+{
+  "name": "Greasy Thug",
+  "version": "0.2.7",
+  "description": "I've been called a greasy thug too. It never stops hurting. Here's what we're gonna do: We're gonna grease ourselves up real good...",
+  "icons": {
+    "48": "images/blimpy_48x48.png",
+    "128": "images/blimpy_128x128.png"
+  },
+
+  "browser_action": {
+    "default_title": "Greasy Thug",
+    "default_icon": "images/icon.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "css": [
+        "stylesheets/themes/darkness/jquery-ui.css",
+        "stylesheets/content_script.css"
+      ],
+      "js": [
+        "javascripts/content_script.js"
+      ]
+    }
+  ],
+
+  "permissions": [
+    "tabs",
+    "http://*/",
+    "https://*/"
+  ],
+
+  "background_page": "background.html",
+  "options_page": "options.html"
+}
