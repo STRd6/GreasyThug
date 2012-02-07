@@ -19,5 +19,5 @@ task :build do
   cp "source/CNAME", "build/CNAME"
 
   # Zip Chrome Extension
-  puts %x(zip -r GreasyThug.zip build)
+  puts %x(zip -r GreasyThug.zip build -x *.git*)
 end

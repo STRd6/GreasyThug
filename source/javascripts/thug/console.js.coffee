@@ -116,6 +116,11 @@ namespace "Thug", (Thug) ->
 
           return undefined
 
+        # Keep other things on the host page from triggering / preventing default behavior
+        $.event.fix(e).stopPropagation()
+
+        return undefined
+
     output = self.find(".output")
 
     actionBar = self.find(".actions")
