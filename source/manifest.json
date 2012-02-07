@@ -1,6 +1,6 @@
 {
-  "name": "Greasy Thug",
-  "version": "0.2.7",
+  "name": "Greasy Thug 2",
+  "version": "0.3.0",
   "description": "I've been called a greasy thug too. It never stops hurting. Here's what we're gonna do: We're gonna grease ourselves up real good...",
   "icons": {
     "48": "images/blimpy_48x48.png",
@@ -8,7 +8,7 @@
   },
 
   "browser_action": {
-    "default_title": "Greasy Thug",
+    "default_title": "Greasy Thug 2",
     "default_icon": "images/icon.png"
   },
 

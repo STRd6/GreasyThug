@@ -7,6 +7,7 @@
 
 #= require_tree ./thug/models
 #= require_tree ./thug/views
+#= require_tree ./thug/content_script
 
 {Models, Views, Window} = Thug
 

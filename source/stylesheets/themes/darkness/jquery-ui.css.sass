@@ -10,6 +10,8 @@
 /* Layout helpers
  *----------------------------------
 
+$extensionUrl: "chrome-extension://dgmifndbofblnjelcmnhenekilhcoabc/images/darkness/"
+
 .clean_thug.darkness
   .ui-helper-hidden
     display: none
@@ -66,20 +68,20 @@
       font-size: 1em
   .ui-widget-content, &.ui-widget-content
     border: 1px solid #666666
-    background: black url(images/ui-bg_inset-soft_25_000000_1x100.png) 50% bottom repeat-x
+    background: black url(#{$extensionUrl}ui-bg_inset-soft_25_000000_1x100.png) 50% bottom repeat-x
     color: #ffffff
     a
       color: #ffffff
   .ui-widget-header
     border: 1px solid #333333
-    background: #333333 url(images/ui-bg_gloss-wave_25_333333_500x100.png) 50% 50% repeat-x
+    background: #333333 url(#{$extensionUrl}ui-bg_gloss-wave_25_333333_500x100.png) 50% 50% repeat-x
     color: #ffffff
     font-weight: bold
     a
       color: #ffffff
   .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
     border: 1px solid #666666
-    background: #555555 url(images/ui-bg_glass_20_555555_1x400.png) 50% 50% repeat-x
+    background: #555555 url(#{$extensionUrl}ui-bg_glass_20_555555_1x400.png) 50% 50% repeat-x
     font-weight: bold
     color: #eeeeee
   .ui-state-default a
@@ -90,7 +92,7 @@
       text-decoration: none
   .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus
     border: 1px solid #59b4d4
-    background: #0078a3 url(images/ui-bg_glass_40_0078a3_1x400.png) 50% 50% repeat-x
+    background: #0078a3 url(#{$extensionUrl}ui-bg_glass_40_0078a3_1x400.png) 50% 50% repeat-x
     font-weight: bold
     color: #ffffff
   .ui-state-hover a
@@ -101,7 +103,7 @@
       text-decoration: none
   .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
     border: 1px solid #ffaf0f
-    background: #f58400 url(images/ui-bg_inset-soft_30_f58400_1x100.png) 50% 50% repeat-x
+    background: #f58400 url(#{$extensionUrl}ui-bg_inset-soft_30_f58400_1x100.png) 50% 50% repeat-x
     font-weight: bold
     color: #ffffff
   .ui-state-active a
@@ -114,7 +116,7 @@
     outline: none
   .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight
     border: 1px solid #cccccc
-    background: #eeeeee url(images/ui-bg_highlight-soft_80_eeeeee_1x100.png) 50% top repeat-x
+    background: #eeeeee url(#{$extensionUrl}ui-bg_highlight-soft_80_eeeeee_1x100.png) 50% top repeat-x
     color: #2e7db2
   .ui-state-highlight a, .ui-widget-content .ui-state-highlight a
     color: #2e7db2
@@ -124,7 +126,7 @@
 
   .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error
     border: 1px solid #ffb73d
-    background: #ffc73d url(images/ui-bg_glass_40_ffc73d_1x400.png) 50% 50% repeat-x
+    background: #ffc73d url(#{$extensionUrl}ui-bg_glass_40_ffc73d_1x400.png) 50% 50% repeat-x
     color: #111111
   .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a, .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text
     color: #111111
@@ -147,21 +149,21 @@
   .ui-icon
     width: 16px
     height: 16px
-    background-image: url(images/ui-icons_cccccc_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_cccccc_256x240.png)
   .ui-widget-content .ui-icon
-    background-image: url(images/ui-icons_cccccc_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_cccccc_256x240.png)
   .ui-widget-header .ui-icon
-    background-image: url(images/ui-icons_ffffff_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_ffffff_256x240.png)
   .ui-state-default .ui-icon
-    background-image: url(images/ui-icons_cccccc_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_cccccc_256x240.png)
   .ui-state-hover .ui-icon, .ui-state-focus .ui-icon
-    background-image: url(images/ui-icons_ffffff_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_ffffff_256x240.png)
   .ui-state-active .ui-icon
-    background-image: url(images/ui-icons_222222_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_222222_256x240.png)
   .ui-state-highlight .ui-icon
-    background-image: url(images/ui-icons_4b8e0b_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_4b8e0b_256x240.png)
   .ui-state-error .ui-icon, .ui-state-error-text .ui-icon
-    background-image: url(images/ui-icons_a83300_256x240.png)
+    background-image: url(#{$extensionUrl}ui-icons_a83300_256x240.png)
   .ui-icon-carat-1-n
     background-position: 0 0
   .ui-icon-carat-1-ne
@@ -529,13 +531,13 @@
     -khtml-border-bottom-right-radius: 6px
     border-bottom-right-radius: 6px
   .ui-widget-overlay
-    background: #5c5c5c url(images/ui-bg_flat_50_5c5c5c_40x100.png) 50% 50% repeat-x
+    background: #5c5c5c url(#{$extensionUrl}ui-bg_flat_50_5c5c5c_40x100.png) 50% 50% repeat-x
     opacity: .80
     filter: Alpha(Opacity = 80)
   .ui-widget-shadow
     margin: -7px 0 0 -7px
     padding: 7px
-    background: #cccccc url(images/ui-bg_flat_30_cccccc_40x100.png) 50% 50% repeat-x
+    background: #cccccc url(#{$extensionUrl}ui-bg_flat_30_cccccc_40x100.png) 50% 50% repeat-x
     opacity: .60
     filter: Alpha(Opacity = 60)
     -moz-border-radius: 8px

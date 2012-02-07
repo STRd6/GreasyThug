@@ -1,5 +1,7 @@
 #= require lib/namespace
 
+#= require ../confirm
+
 #= require ../view
 #= require ../models/script
 
@@ -38,7 +40,11 @@ namespace "Thug.Views", (Views) ->
       @el.append $("<button>",
         text: "Delete"
         click: =>
-          @model.destroy()
+          Thug.Confirm
+            title: "Delete #{@model.get 'name'}?"
+            text: "Are you sure you want to delete this script?"
+            confirm: =>
+              @model.destroy()
       ).button
         text: false
         icons:

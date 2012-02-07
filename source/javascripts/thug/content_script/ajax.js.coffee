@@ -25,7 +25,7 @@ namespace "Thug.ContentScript", (ContentScript) ->
 
     get: (url, data, callback, type) =>
       # shift arguments if data argument was omited
-      if $.isFunction(data))
+      if $.isFunction(data)
         type = type || callback
         callback = data
         data = {}
@@ -46,7 +46,7 @@ namespace "Thug.ContentScript", (ContentScript) ->
 
     post: (url, data, callback, type) =>
       # shift arguments if data argument was omited
-      if $.isFunction(data))
+      if $.isFunction(data)
         type = type || callback
         callback = data
         data = {}

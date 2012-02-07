@@ -1,7 +1,6 @@
 #= require lib/jquery-1.7.1.min
 
-#= require pixie/persistence
-
+#= require thug/persistence
 #= require thug/background/ajax
 #= require thug/background/gm
 #= require thug/background/log
