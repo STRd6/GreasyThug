@@ -3422,7 +3422,9 @@ CodeMirror.defineMIME('text/x-coffeescript', 'coffeescript');
           if (e.type === "keyup") {
             if (keepState) pendingCommand = self.val();
             keepState = true;
+            return;
           }
+          $.event.fix(e).stopPropagation();
         }
       });
       output = self.find(".output");

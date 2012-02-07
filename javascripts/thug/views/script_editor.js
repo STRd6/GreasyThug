@@ -2251,13 +2251,15 @@ Backbone.sync = Backbone.localSync;
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   namespace("Thug.Views", function(Views) {
-    var Models, scriptEditors;
+    var Models, evalContext, scriptEditors;
     Models = Thug.Models;
+    evalContext = eval;
     Views.ScriptEditor = (function(_super) {
 
       __extends(ScriptEditor, _super);
 
       function ScriptEditor() {
+        this.runCode = __bind(this.runCode, this);
         this.saveSource = __bind(this.saveSource, this);
         this.updateName = __bind(this.updateName, this);
         this.render = __bind(this.render, this);
@@ -2269,23 +2271,34 @@ Backbone.sync = Backbone.localSync;
       ScriptEditor.prototype.tagName = 'li';
 
       ScriptEditor.prototype.initialize = function() {
-        var input;
+        var actions, input;
         this.el = Thug.Window({
           title: "Edit Script",
           resizable: true
         });
         this.delegateEvents();
-        this.el.append($("<input type=text name=name>"));
-        this.el.append($("<button>", {
+        actions = $("<div>", {
+          "class": "actions"
+        });
+        actions.append($("<input type=text name=name>"));
+        actions.append($("<button>", {
+          "class": "run",
+          text: "Run"
+        }).button());
+        actions.append($("<button>", {
           "class": "save",
           text: "Save"
         }).button());
+        this.el.append(actions);
         input = $("<input type=textarea>");
         this.el.append(input);
         this.editor = new CodeMirror.fromTextArea(input.get(0), {
           lineNumbers: true,
           tabMode: "shift",
-          textWrapping: false
+          textWrapping: false,
+          onKeyEvent: function(editor, e) {
+            $.event.fix(e).stopPropagation();
+          }
         });
         this.editor.setValue(this.model.get("source"));
         this.el.attr("data-cid", this.model.cid);
@@ -2314,10 +2327,23 @@ Backbone.sync = Backbone.localSync;
         return this.model.save();
       };
 
+      ScriptEditor.prototype.runCode = function() {
+        var compiledCommand, result;
+        try {
+          compiledCommand = CoffeeScript.compile(this.editor.getValue(), {
+            bare: true
+          });
+          return result(evalContext(compiledCommand));
+        } catch (error) {
+          return result = error.message;
+        }
+      };
+
       ScriptEditor.prototype.events = {
         "change [name=name]": "updateName",
         "keyup [name=name]": "updateName",
-        "click button.save": "saveSource"
+        "click button.save": "saveSource",
+        "click button.run": "runCode"
       };
 
       return ScriptEditor;
