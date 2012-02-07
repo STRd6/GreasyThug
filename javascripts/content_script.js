@@ -10725,6 +10725,55 @@ A base view for our frontbone framework.
 
 }).call(this);
 (function() {
+
+  namespace("Thug", function(Thug) {
+    return Thug.Confirm = function(I) {
+      var self;
+      if (I == null) I = {};
+      Object.reverseMerge(I, {
+        cssScope: "clean_thug",
+        title: "Confirmation Dialog",
+        text: "Confirm?",
+        theme: "darkness",
+        buttons: {
+          Ok: function() {
+            if (typeof I.confirm === "function") I.confirm();
+            return $(this).dialog('close');
+          },
+          Cancel: function() {
+            if (typeof I.cancel === "function") I.cancel();
+            return $(this).dialog('close');
+          }
+        }
+      });
+      self = $("<div>", {
+        "class": "content"
+      });
+      self.text(I.text);
+      self.prepend($("<span>", {
+        "class": "ui-icon ui-icon-alert",
+        css: {
+          float: "left",
+          margin: "0 7px 20px 0"
+        }
+      }));
+      self.dialog({
+        title: I.title,
+        autoOpen: false,
+        resizable: false,
+        width: 400,
+        minHeight: null,
+        modal: true,
+        buttons: I.buttons
+      });
+      self.parent().addClass(I.cssScope).addClass(I.theme);
+      self.dialog('open');
+      return self;
+    };
+  });
+
+}).call(this);
+(function() {
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
@@ -10770,7 +10819,13 @@ A base view for our frontbone framework.
         this.el.append($("<button>", {
           text: "Delete",
           click: function() {
-            return _this.model.destroy();
+            return Thug.Confirm({
+              title: "Delete " + (_this.model.get('name')) + "?",
+              text: "Are you sure you want to delete this script?",
+              confirm: function() {
+                return _this.model.destroy();
+              }
+            });
           }
         }).button({
           text: false,
@@ -10883,6 +10938,99 @@ A base view for our frontbone framework.
       return ScriptList;
 
     })(Thug.View);
+  });
+
+}).call(this);
+(function() {
+
+  namespace("Thug.ContentScript", function(ContentScript) {
+    var log,
+      _this = this;
+    log = ContentScript.log;
+    return Object.extend(ContentScript, {
+      ajax: function(settings) {
+        log("ajax SENDING:", settings);
+        return chrome.extension.sendRequest({
+          action: "ajax",
+          settings: settings
+        }, function(response) {
+          log("ajax RECEIVING:", response);
+          if (response.success) {
+            if (settings.success) {
+              return settings.success(response.data, response.textStatus, response.XMLHttpRequest);
+            }
+          } else if (response.error) {
+            if (settings.error) {
+              return settings.error(response.XMLHttpRequest, response.textStatus, response.errorThrown);
+            }
+          }
+        });
+      },
+      get: function(url, data, callback, type) {
+        if ($.isFunction(data)) {
+          type = type || callback;
+          callback = data;
+          data = {};
+        }
+        return _this.ajax({
+          type: "GET",
+          url: url,
+          data: data,
+          success: callback,
+          dataType: type
+        });
+      },
+      getJSON: function(url, data, callback) {
+        return _this.ajax({
+          data: data,
+          dataType: 'json',
+          success: callback,
+          url: url
+        });
+      },
+      post: function(url, data, callback, type) {
+        if ($.isFunction(data)) {
+          type = type || callback;
+          callback = data;
+          data = {};
+        }
+        return _this.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: callback,
+          dataType: type
+        });
+      }
+    });
+  });
+
+}).call(this);
+(function() {
+
+  namespace("Thug.ContentScript", function(ContentScript) {
+    var log;
+    log = ContentScript.log;
+    return ContentScript.Util = {
+      setVal: function(key, value) {
+        return chrome.extension.sendRequest({
+          action: "set",
+          key: key,
+          value: value
+        }, function(response) {
+          return log(response);
+        });
+      },
+      getVal: function(key, callback) {
+        return chrome.extension.sendRequest({
+          action: "get",
+          key: key
+        }, function(response) {
+          log(response);
+          return callback(response.value);
+        });
+      }
+    };
   });
 
 }).call(this);
